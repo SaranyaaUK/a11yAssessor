@@ -8,72 +8,115 @@
 
 import React, { useState } from "react";
 import { useNavigate, generatePath } from "react-router-dom";
-
+// React-Bootstrap Components
+import InputGroup from "react-bootstrap/InputGroup";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Tooltip from "react-bootstrap/Tooltip";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+// Validation
+import validator from "validator";
+// Toasts
+import { toast } from "react-toastify";
 
 const HomePageBody = () => {
-    const [url, setURL] = useState("");
+    // To redirect
     const navigate = useNavigate();
+    // URL State
+    const [url, setURL] = useState("");
 
-    const handleForm = async (e) => {
+    // Callbacks
+    const onEvaluateBtnClick = async (e) => {
         e.preventDefault();
-        console.log(encodeURIComponent(url));
+
+        // Validate the URL before proceeding
+        const options = {
+            protocols: ['http', 'https'],
+            require_protocol: true,
+            require_valid_protocol: true
+        }
+        if (!validator.isURL(url, options)) {
+            toast.error("Enter a valid URL, in the form as shown in the URL input field");
+            return;
+        }
+
         const path = generatePath(`/:toPassURL`, {
             toPassURL: encodeURIComponent(url).toString()
         });
+
+        // On evaluate button click take to the result page
         navigate(path);
     };
 
     return (
-        <div
-            className="bg-image position-relative"
+        <Container
+            // Overlay background image
+            className="p-1"
             style={{
-                backgroundImage: `url('./homePageBg.png')`,
+                backgroundImage: `url('./a11yBg.png')`,
                 backgroundSize: "contain",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
                 height: 65 + "vh",
                 color: "white"
-            }}>
-            {/* // style={{
-            //     backgroundImage: `url('./a11y.png')`,
-            //     backgroundSize: "cover",
-            //     backgroundRepeat: "no-repeat",
-            //     backgroundPosition: "center",
-            //     height: 65 + "vh",
-            //     color: "white"
-            // }}> */}
-            < div className="position-absolute mask d-flex justify-content-sm-center align-items-center" style={{
-                height: "100%",
-                width: "100%",
-                backgroundColor: "rgba(0,0,0,0.8)"
+            }}
+            fluid
+        >
+            <Container
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    backgroundColor: "rgba(250,0,0,0.2)"
+                }}
+                fluid
+            >
+                <InputGroup size="mb p-2" >
+                    <InputGroup.Text>Enter the URL</InputGroup.Text>
+                    <input type="url"
+                        id="urlInput"
+                        className="form-control"
+                        value={url}
+                        onChange={(e) => setURL(e.target.value)}
+                        placeholder="https://www.example.com"
+                        aria-label="Enter the URL of the webpage to evaluate"
+                    />
+                    <Button
+                        type="submit"
+                        onClick={onEvaluateBtnClick}
+                    >
+                        Evaluate
+                    </Button>{' '}
 
-            }}>
-                <form onSubmit={handleForm}>
-                    <div className="row g-3 justify-content-sm-center align-items-center">
-                        <div className="col-sm-2 m-1">
-                            <label className="col-form-label" htmlFor="urlInput">Enter the URL:</label>
-                            <button className="btn btn-sm btn-outline-primary rounded-pill m-1"
+                    {/* Tooltip for the info button */}
+                    <OverlayTrigger
+                        placement="bottom"
+                        delay={{ show: 250, hide: 500 }}
+                        overlay={
+                            <Tooltip id="button-tooltip-2">
+                                Only errors in the webpage are shown, <a href="/login">login</a> to view warnings, notices and do manual evaluation.
+                            </Tooltip>
+                        }
+                    >
+                        {({ ref, ...triggerHandler }) => (
+                            <Button
+                                variant="primary"
+                                ref={ref}
+                                {...triggerHandler}
+                                className=" btn-sm rounded-pill m-1"
                                 style={{
                                     width: 2 + "rem",
                                     height: 2 + "rem"
                                 }}
-                                data-bs-toggle="popover"
-                                data-bs-trigger="focus"
-                                data-bs-title="Info"
-                                data-bs-content="Only Errors will be shown"
-                            ><i className="fa-solid fa-circle-info"></i>
-                            </button>
-                        </div>
-                        <div className="col-sm-8 m-1">
-                            <input type="url" id="urlInput"
-                                className="form-control" value={url}
-                                onChange={(e) => setURL(e.target.value)} placeholder="https://www.example.com/" aria-label="Webpage URL" />
-                        </div>
-                        <div className="col-sm-1 m-1"><button type="submit" className="btn btn-outline-primary">Evaluate</button></div>
-                    </div>
-                </form >
-            </div>
-        </div >
+                            >
+                                <i className="fa-solid fa-circle-info"></i>
+                            </Button>
+                        )
+                        }
+                    </OverlayTrigger>
+                </InputGroup>
+            </Container >
+        </Container >
+
     )
 }
 

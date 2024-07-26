@@ -10,7 +10,6 @@ import Header from "../components/Header"
 import Footer from "../components/Footer"
 import HomePageBody from "../components/HomePageBody";
 
-
 const Home = () => {
     return (
         <div>

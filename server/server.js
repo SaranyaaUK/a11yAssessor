@@ -12,42 +12,27 @@
  * 
  */
 
-// To maintain configuration
-require('dotenv').config();
+// To get the configuration
+import dotenv from "dotenv";
+dotenv.config()
 // Middleware
-const express = require("express");
+import express from "express";
 // For CORS enabling
-const cors = require("cors");
-// pa11y - Accessibility api
-const pa11y = require("pa11y");
+import cors from "cors";
+// Routes
+import guestResult from "./routes/guestResults.js"
 
 
 // App instance
 const app = express();
+// To allow fetching from server
 app.use(cors());
+app.use(express.json());
 
 // Server Routes
 
-// Result page (Guest user)
-app.get("/api/v1/:url", async (req, res) => {
-
-    // URL provided by the guest user
-    const url = req.params.url;
-    console.log(`URL ${url}`);
-    // Options to use with pa11y
-    const options = {
-        includeErrors: false,
-        includeWarning: false
-    }
-    try {
-        console.log("pa11y analysing the webpage");
-        // Pass the url and options to the pa11y api
-        const result = await pa11y(url, options);
-        res.status(200).json(result);
-    } catch (err) {
-        res.status(400).json({ error: "Cannot Evaluate the given page" });
-    }
-});
+// Guest user result page routes
+app.use("/api/v1", guestResult);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
