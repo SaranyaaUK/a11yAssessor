@@ -13,6 +13,7 @@ import Home from "./routes/HomePage";
 import GuestResult from "./routes/GuestResultPage";
 import Login from './routes/LoginPage';
 import Register from './routes/RegisterPage';
+import VerifyEmail from "./routes/VerifyEmailPage"
 
 // Context Hook
 import { AppContextProvider, AuthenticationContext } from './context/AppContext';
@@ -36,7 +37,7 @@ const App = () => {
         checkAuthentication();
     }, [setIsAuthenticated])
 
-
+    // Render the component
     return (
         <AppContextProvider>
             <div>
@@ -47,8 +48,12 @@ const App = () => {
                         {/* Guest User Result Page */}
                         <Route exact path="/:url" element={<GuestResult />} />
                         {/* Authentication routes */}
+                        {/* Login Page */}
                         <Route exact path="/login" element={!isAuthenticated ? (<Login />) : (<Navigate to="/" />)} />
+                        {/* Registration Page */}
                         <Route exact path="/register" element={!isAuthenticated ? (<Register />) : (<Navigate to="/" />)} />
+                        {/* Email verification Page */}
+                        <Route exact path="/activate/:id/:token" element={<VerifyEmail />} />
                     </Routes>
                 </Router>
                 <ToastContainer />

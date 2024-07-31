@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { generatePath, useNavigate } from "react-router-dom";
 // React-Bootstrap components
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -6,8 +7,15 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
+// Validator
+import validator from "validator";
+// API
+import ServerAPI from "../apis/ServerAPI";
+// Notification
+import { toast } from "react-toastify";
 
 const RegisterPageBody = () => {
+    const navigate = useNavigate();
     // Initialise the registration inputs state
     const [signupInputs, setSignupInputs] = useState({
         firstname: "",
@@ -26,6 +34,56 @@ const RegisterPageBody = () => {
     // Callback - Register button 
     const onRegisterBtnClick = async (e) => {
         e.preventDefault();
+
+        try {
+            // Validate email
+            if (!validator.isEmail(email)) {
+                toast.error("Enter a valid email, in the form as shown in the Email address input field",
+                    { position: "top-center" }
+                );
+                return;
+            }
+
+            // Validate Password
+            const regex = /^[a-zA-Z0-9]{6,15}$/;
+
+            if (!regex.test(password) && !regex.test(confirmPassword)) {
+                toast.error("Password must be 6-15 characters long and contain only alphanumeric characters",
+                    { position: "top-center" }
+                );
+                return;
+            }
+
+            // Validate password match
+            if (password !== confirmPassword) {
+                toast.error("Password and Confirm Password do not match",
+                    { position: "top-center" }
+                );
+                return;
+            }
+
+            const body = { firstname, lastname, email, password, confirmPassword };
+
+            const response = await ServerAPI.post(`/auth/register`, JSON.stringify(body),
+                {
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                }
+            );
+
+            if (response.data.success) {
+                // After registration is successful, redirect to login page
+                navigate(generatePath("/login"));
+                toast.success(response.data && response.data.message, { position: "top-center" });
+            } else {
+                toast.error(response.data && response.data.message, { position: "top-center" });
+            }
+
+
+        } catch (err) {
+            console.error(err.message);
+        }
     };
 
     // Render the component
@@ -90,7 +148,7 @@ const RegisterPageBody = () => {
                                             type="password"
                                             id="password" />
                                         <Form.Text>
-                                            Your password must be 6-15 characters long, contains only alphanumeric characters
+                                            Your password must be 6-15 characters long and contains only alphanumeric characters
                                         </Form.Text>
                                     </Form.Group>
                                     {/* Confirm password */}

@@ -20,7 +20,8 @@ import express from "express";
 // For CORS enabling
 import cors from "cors";
 // Routes
-import guestResult from "./routes/guestResults.js"
+import authentication from "./routes/authentication.js";
+import guestResult from "./routes/guestResults.js";
 
 
 // App instance
@@ -31,7 +32,10 @@ app.use(express.json());
 
 // Server Routes
 
-// Guest user result page routes
+// User authentication routes
+app.use("/api/v1/auth", authentication);
+
+// Guest user result page route
 app.use("/api/v1", guestResult);
 
 const PORT = process.env.PORT || 5000;

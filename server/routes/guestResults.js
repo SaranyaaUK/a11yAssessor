@@ -6,11 +6,10 @@
  * 
  */
 
-import express from "express";
-const router = express.Router();
 import captureWebsite from "capture-website";
 import getPa11yResult from "../utils/getPa11yResult.js";
-
+import express from "express";
+const router = express.Router();
 
 /**
  *  GET Request
@@ -78,8 +77,7 @@ router.get("/:url", async (req, res) => {
         // Send the result to the front-end
         res.status(200).json(data);
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: "Cannot evaluate the given page" });
+        res.status(500).json({ success: false, message: "Cannot evaluate the given page" });
     }
 })
 
