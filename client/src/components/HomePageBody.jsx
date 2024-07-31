@@ -36,7 +36,9 @@ const HomePageBody = () => {
             require_valid_protocol: true
         }
         if (!validator.isURL(url, options)) {
-            toast.error("Enter a valid URL, in the form as shown in the URL input field");
+            toast.error("Enter a valid URL, in the form as shown in the URL input field",
+                { position: "top-center" }
+            );
             return;
         }
 

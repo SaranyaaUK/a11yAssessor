@@ -6,13 +6,18 @@
  */
 import React from "react";
 // React-Bootstrap Components
+import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Ratio from 'react-bootstrap/Ratio';
 import ResultAccordion from "./ResultAccordion";
+import Row from "react-bootstrap/Row";
+import Stack from 'react-bootstrap/Stack';
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
+import Tooltip from "react-bootstrap/Tooltip";
+
 
 
 const ResultPageBody = ({ url, results }) => {
@@ -21,9 +26,7 @@ const ResultPageBody = ({ url, results }) => {
     const warningsPresent = Object.keys(results.groupedWarnings).length !== 0;
     const noticesPresent = Object.keys(results.groupedNotices).length !== 0;
 
-    console.log(warningsPresent);
-    console.log(noticesPresent);
-
+    // Render the component
     return (
         <Container>
             <Row>
@@ -31,14 +34,6 @@ const ResultPageBody = ({ url, results }) => {
             </Row>
 
             <Row>
-                <Col>
-                    <Ratio aspectRatio="1x1">
-                        <iframe title="Frame" src={url}>
-                            <p>This page is not allowed to be embedded in iframes.</p>
-                        </iframe>
-                    </Ratio>
-
-                </Col>
                 <Col>
                     <Tabs
                         defaultActiveKey={0}
@@ -50,7 +45,7 @@ const ResultPageBody = ({ url, results }) => {
                             {
                                 (!errorsPresent) ?
                                     (<h2>No errors found</h2>) :
-                                    (<ResultAccordion groupedResults={results.groupedErrors} />)
+                                    (<ResultAccordion url={url} groupedResults={results.groupedErrors} />)
                             }
                         </Tab>
 
@@ -59,7 +54,7 @@ const ResultPageBody = ({ url, results }) => {
                             {
                                 (!warningsPresent) ?
                                     (<h2 className="d-flex justify-content-center align-items-center">No Warnings found</h2>) :
-                                    (<ResultAccordion groupedResults={results.groupedWarnings} />)
+                                    (<ResultAccordion url={url} groupedResults={results.groupedWarnings} />)
                             }
                         </Tab>
 
@@ -69,10 +64,50 @@ const ResultPageBody = ({ url, results }) => {
                             {
                                 (!noticesPresent) ?
                                     (<h2 className="d-flex justify-content-center align-items-center">No Notices found</h2>) :
-                                    (<ResultAccordion groupedResults={results.groupedNotices} />)
+                                    (<ResultAccordion url={url} groupedResults={results.groupedNotices} />)
                             }
                         </Tab>
                     </Tabs>
+                </Col>
+                <Col>
+                    {/* Evaluated page URL - Fallback if the URL refuses to connect*/}
+                    <Stack gap={1}>
+                        <Stack direction="horizontal" gap={1}>
+                            <OverlayTrigger
+                                placement="bottom"
+                                delay={{ show: 250, hide: 500 }}
+                                overlay={
+                                    <Tooltip id="button-tooltip-2">
+                                        Some webpage might refuse to connect, use the URL to visit the webpage.
+                                    </Tooltip>
+                                }
+                            >
+                                {({ ref, ...triggerHandler }) => (
+                                    <Button
+                                        variant="primary"
+                                        ref={ref}
+                                        {...triggerHandler}
+                                        className=" btn-sm rounded-pill m-1"
+                                        style={{
+                                            width: 2 + "rem",
+                                            height: 2 + "rem"
+                                        }}
+                                    >
+                                        <i className="fa-solid fa-circle-info"></i>
+                                    </Button>
+                                )
+                                }
+                            </OverlayTrigger>
+                            <span className="">URL: </span>
+                            <a className="align-items-center" target="_blank" href={url} rel="noreferrer">{url}</a>
+                        </Stack>
+                        {/* Embed the iframe */}
+                        <Ratio aspectRatio="1x1">
+                            <iframe title="Frame" src={url}>
+                                <p>This page is not allowed to be embedded in iframes.</p>
+                            </iframe>
+                        </Ratio>
+                    </Stack>
                 </Col>
             </Row>
         </Container >

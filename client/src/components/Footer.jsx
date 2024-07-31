@@ -27,7 +27,7 @@ const Footer = () => {
                     <ul className="nav flex-column">
                         <li className="nav-item mb-2"><a href="/" className="nav-link p-0 text-body-secondary">About Us</a></li>
                         <li className="nav-item mb-2"><a href="/" className="nav-link p-0 text-body-secondary">Features</a></li>
-                        <li className="nav-item mb-2"><a href="/" className="nav-link p-0 text-body-secondary">Login</a></li>
+                        <li className="nav-item mb-2"><a href="/login" className="nav-link p-0 text-body-secondary">Login</a></li>
                     </ul>
                 </div>
 

@@ -23,7 +23,7 @@ router.get("/getDOMElementImage", async (req, res) => {
         // <TO DO> Add error checks url and css not available
 
         // Get the url
-        const url = decodeURIComponent(decodeURIComponent(req.query.url.slice(1)))
+        const url = decodeURIComponent(req.query.url)
         const selector = req.query.css;
 
         // Use capture-website to get image of the element from the given url
@@ -79,7 +79,7 @@ router.get("/:url", async (req, res) => {
         res.status(200).json(data);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Cannot Evaluate the given page" });
+        res.status(500).json({ message: "Cannot evaluate the given page" });
     }
 })
 

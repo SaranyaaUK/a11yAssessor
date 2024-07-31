@@ -12,7 +12,7 @@ import Button from "react-bootstrap/Button";
 import Loading from "./Loading";
 
 
-const ResultAccordion = ({ groupedResults }) => {
+const ResultAccordion = ({ url, groupedResults }) => {
     // To handle the modal dialog to show the 
     // snapshot of the element
     const [show, setShow] = useState(false);
@@ -35,7 +35,7 @@ const ResultAccordion = ({ groupedResults }) => {
                 const response = await ServerAPI.get(`/getDOMElementImage`, {
                     params: {
                         css: selector,
-                        url: window.location.pathname,
+                        url: url,
                     }
 
                 });
@@ -53,7 +53,7 @@ const ResultAccordion = ({ groupedResults }) => {
         <>
             <Accordion defaultActiveKey="0">
                 {
-                    // Map the as per the context and render the accordion
+                    // Map the result as per the context and render the accordion
                     Object.keys(groupedResults).map((item, index) => (
                         <AccordionItem key={index} eventKey={index + ""}>
                             <Accordion.Header>
