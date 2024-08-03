@@ -6,12 +6,20 @@ export const AuthenticationContext = createContext();
 // To maintain the app context
 export const AppContextProvider = props => {
     const [results, setResults] = useState([]);
+    const [sitesList, setSitesList] = useState([]);
+
+    const addSite = (site) => {
+        setSitesList([...sitesList, site]);
+    }
 
     return (
         <AppContext.Provider
             value={{
                 results,
-                setResults
+                setResults,
+                sitesList,
+                setSitesList,
+                addSite
             }} >
             {props.children}
         </AppContext.Provider>

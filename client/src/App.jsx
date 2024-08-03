@@ -14,7 +14,8 @@ import GuestResult from "./routes/GuestResultPage";
 import Login from './routes/LoginPage';
 import Register from './routes/RegisterPage';
 import VerifyEmail from "./routes/VerifyEmailPage"
-
+import ForgotPassword from './routes/ForgotPasswordPage';
+import UserDashboard from './routes/UserDashboardPage';
 // Context Hook
 import { AppContextProvider, AuthenticationContext } from './context/AppContext';
 
@@ -32,7 +33,22 @@ const App = () => {
     // useEffect Hook - To maintain state even on refresh
     useEffect(() => {
         const checkAuthentication = async () => {
-            setIsAuthenticated(false);
+            try {
+                // If token is available validate it
+                if (localStorage.getItem("token")) {
+                    const response = await Server.get("/auth/verify",
+                        {
+                            headers: {
+                                "token": localStorage.getItem("token")
+                            },
+                        });
+                    response.data.success ? setIsAuthenticated(true) : setIsAuthenticated(false);
+                } else {
+                    setIsAuthenticated(false);
+                }
+            } catch (error) {
+                setIsAuthenticated(false);
+            }
         }
         checkAuthentication();
     }, [setIsAuthenticated])
@@ -44,16 +60,25 @@ const App = () => {
                 <Router>
                     <Routes>
                         {/* Home Page */}
-                        <Route exact path="/" element={<Home />} />
+                        <Route exact path="/" element={!isAuthenticated ? (<Home />) : (<Navigate to="/dashboard" />)} />
                         {/* Guest User Result Page */}
                         <Route exact path="/:url" element={<GuestResult />} />
-                        {/* Authentication routes */}
+                        {/* 
+                            Authentication routes 
+                        */}
                         {/* Login Page */}
-                        <Route exact path="/login" element={!isAuthenticated ? (<Login />) : (<Navigate to="/" />)} />
+                        <Route exact path="/login" element={!isAuthenticated ? (<Login />) : (<Navigate to="/dashboard" />)} />
                         {/* Registration Page */}
-                        <Route exact path="/register" element={!isAuthenticated ? (<Register />) : (<Navigate to="/" />)} />
+                        <Route exact path="/register" element={!isAuthenticated ? (<Register />) : (<Navigate to="/login" />)} />
                         {/* Email verification Page */}
                         <Route exact path="/activate/:id/:token" element={<VerifyEmail />} />
+                        {/* Forgot Password Page */}
+                        <Route exact path="/resetpassword/:id/:token" element={<ForgotPassword />} />
+                        {/* 
+                            Authorised routes 
+                        */}
+                        {/* User Dashboard */}
+                        <Route exact path="/dashboard" element={isAuthenticated ? (<UserDashboard />) : (<Navigate to="/login" />)} />
                     </Routes>
                 </Router>
                 <ToastContainer />

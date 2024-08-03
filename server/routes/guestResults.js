@@ -32,7 +32,6 @@ router.get("/getDOMElementImage", async (req, res) => {
                 await page.evaluate((element) => {
                     const elem = document.querySelector(`${element}`);
                     if (!elem) {
-                        console.log('Element not found.');
                         return;
                     };
                     elem.style.outline = '6px solid red'; elem.style['outline-offset'] = '12px';
@@ -70,7 +69,7 @@ router.get("/:url", async (req, res) => {
             includeWarnings: false,
             runners: ["axe"]
         }
-        console.log("pa11y analysing the webpage");
+
         // Use the util to pre-process the result in the form the front-end need
         const data = await getPa11yResult(url, options);
 

@@ -7,7 +7,9 @@
  */
 
 
-import React from "react";
+import React, { useContext } from "react";
+// Context
+import { AuthenticationContext } from "../context/AppContext";
 // React-Bootstrap components
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -15,6 +17,19 @@ import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 
 const Header = () => {
+    const { isAuthenticated, setIsAuthenticated } = useContext(AuthenticationContext);
+
+    const logout = e => {
+        e.preventDefault();
+        try {
+            // Clear the token from the local storage
+            localStorage.removeItem("token");
+            setIsAuthenticated(false);
+        } catch (err) {
+            console.error(err.message);
+        }
+    };
+    // Render the component
     return (
         <Navbar bg="light" collapseOnSelect expand="lg" data-bs-theme="light">
             <Container fluid>
@@ -35,7 +50,14 @@ const Header = () => {
                     <Nav>
                         <Nav.Link href="/">About</Nav.Link>
                         <Nav.Link href="/">Feature</Nav.Link>
-                        <Nav.Link href="/login">Login</Nav.Link>
+                        {(!isAuthenticated) ?
+                            (<Nav.Link href="/login">Login</Nav.Link>) :
+                            (<Nav.Link
+                                onClick={e => logout(e)}
+                                href="/">
+                                Logout
+                            </Nav.Link>)
+                        }
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -1,9 +1,9 @@
 /**
  * 
- * 
  *  HomePageBody.jsx
  * 
  *  Defines the content of the home page
+ * 
  */
 
 import React, { useState } from "react";

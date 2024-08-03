@@ -1,3 +1,10 @@
+/**
+ * 
+ *  Loading.jsx
+ * 
+ *  Defines the spinner component 
+ * 
+ */
 import React from "react";
 // React-Bootstrap Components
 import Spinner from "react-bootstrap/Spinner";

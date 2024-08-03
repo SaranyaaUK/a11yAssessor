@@ -1,6 +1,7 @@
 /**
  * 
  *  ResultPageBody.jsx
+ * 
  *  The component renders the body of the guest result page
  * 
  */

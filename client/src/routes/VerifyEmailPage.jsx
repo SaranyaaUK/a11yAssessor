@@ -23,7 +23,6 @@ const VerifyEmailPage = () => {
             // Make request to authenticate the user
             const response = await ServerAPI.get(`/auth/activate/${params[2]}/${params[3]}`);
 
-            console.log(response.data.success);
             if (response.data.success) {
                 // Navigate to login page after email verification
                 navigate(generatePath("/login"), { replace: true, state: { "message": "Email verified" } });

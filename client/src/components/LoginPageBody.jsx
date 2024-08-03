@@ -1,5 +1,11 @@
+/**
+ * 
+ *  LoginPageBody.jsx
+ *  
+ *  Defines the body of the login page
+ * 
+ */
 import React, { useContext, useState } from "react";
-import ServerAPI from "../apis/ServerAPI";
 import { AuthenticationContext } from "../context/AppContext";
 // React-Bootstrap components
 import Container from "react-bootstrap/Container";
@@ -7,6 +13,10 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+// Validator
+import validator from "validator";
+// API
+import ServerAPI from "../apis/ServerAPI";
 // Notification
 import { toast } from "react-toastify";
 
@@ -27,11 +37,63 @@ const LoginPageBody = () => {
     // Callback - Login button 
     const onLoginBtnClick = async (e) => {
         e.preventDefault();
+
+        try {
+            // Data to post
+            const body = { email, password };
+            // Wait for response
+            const response = await ServerAPI.post(`/auth/login`, JSON.stringify(body),
+                {
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                }
+            );
+
+            if (response.data) {
+                // Store the JWT in local storage for authorisation,
+                // if user is authenticated
+                localStorage.setItem("token", response.data.token);
+                setIsAuthenticated(true);
+                toast.success(response.data && response.data.message);
+            } else {
+                // If user is not authenticated, do not authorise user
+                setIsAuthenticated(false);
+                toast.error(response.data && response.data.message);
+            }
+        } catch (err) {
+            console.error(err.message);
+            toast.error(err.message);
+        }
     };
 
     // Callback - Password reset  
     const onPasswordResetBtnClick = async (e) => {
         e.preventDefault();
+
+        try {
+            // Data to post
+            const body = { email };
+            if (!validator.isEmail(email)) {
+                toast.error("Enter valid email to proceed", { position: "top-center" });
+                return;
+            }
+            // Wait for response
+            const response = await ServerAPI.post(`/resetpassword`, JSON.stringify(body),
+                {
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                }
+            );
+            if (response.data.success) {
+                toast.info(response.data.message, { position: "top-center" });
+            } else {
+                toast.error(response.data.message, { position: "top-center" });
+            }
+        } catch (err) {
+            toast.error("Email do not exist, check the entered email!", { position: "top-center" });
+        }
     };
 
     // Render the component
@@ -85,11 +147,11 @@ const LoginPageBody = () => {
                                 Login
                             </Button>
                             {/*  Forgot password */}
-                            <a className="text-muted"
-                                href="#"
+                            <Button
+                                variant="outline-primary"
                                 onClick={onPasswordResetBtnClick}>
                                 Forgot password?
-                            </a>
+                            </Button>
                         </Container>
                         {/* Register button */}
                         <Container className="d-flex flex-row align-items-center justify-content-center">

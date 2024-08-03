@@ -1,3 +1,10 @@
+/**
+ * 
+ *  RegisterPageBody.jsx
+ *  
+ *  Defines the body of the registration page
+ * 
+ */
 import React, { useState } from "react";
 import { generatePath, useNavigate } from "react-router-dom";
 // React-Bootstrap components
@@ -83,6 +90,7 @@ const RegisterPageBody = () => {
 
         } catch (err) {
             console.error(err.message);
+            toast.error(err.message, { position: "top-center" });
         }
     };
 

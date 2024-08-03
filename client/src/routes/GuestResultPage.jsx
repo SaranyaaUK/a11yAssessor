@@ -7,12 +7,13 @@
 import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
-import ServerAPI from "../apis/ServerAPI";
 // Components
 import Header from "../components/Header";
 import ResultPageBody from "../components/ResultPageBody";
 import Footer from "../components/Footer";
 import Loading from "../components/Loading";
+// API
+import ServerAPI from "../apis/ServerAPI";
 // Toasts
 import { toast } from "react-toastify";
 

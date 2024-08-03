@@ -1,6 +1,6 @@
 /**
  * 
- * HomePage.jsx 
+ * UserDashboardPage.jsx 
  * Component that represents the home page
  * 
  */
@@ -8,13 +8,14 @@
 import React from "react";
 import Header from "../components/Header"
 import Footer from "../components/Footer"
-import HomePageBody from "../components/HomePageBody";
+import UserDashboardBody from "../components/UserDashboardBody";
+
 
 const Home = () => {
     return (
         <>
             <Header />
-            <HomePageBody />
+            <UserDashboardBody />
             <Footer />
         </>
     )

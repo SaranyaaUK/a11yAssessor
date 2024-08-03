@@ -11,7 +11,6 @@ dotenv.config();
 import nodemailer from "nodemailer";
 
 async function sendEmail(toEmail, subject, message) {
-    console.log("sendEmail utility");
 
     try {
         const transporter = nodemailer.createTransport({
@@ -34,10 +33,7 @@ async function sendEmail(toEmail, subject, message) {
             html: message,
         })
 
-        console.log("Email sent");
-
     } catch (error) {
-        console.log("Sending email failed. Please verify the email entered");
         console.log(error);
         return error;
     }

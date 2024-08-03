@@ -6,7 +6,6 @@
 import pa11y from "pa11y";
 
 async function getPa11yResult(url, options) {
-    console.log(url);
     // Get the result of the automated evaluation
     const result = await pa11y(decodeURIComponent(url), options);
 

@@ -1,3 +1,11 @@
+/**
+ * 
+ *  ResultAccordion.jsx
+ * 
+ *  Defines the automated result accordion
+ * 
+ */
+
 import { React, useState } from "react";
 import ServerAPI from "../apis/ServerAPI";
 // React-Bootstrap components
@@ -31,7 +39,6 @@ const ResultAccordion = ({ url, groupedResults }) => {
 
         const fetchResult = async (selector) => {
             try {
-                console.log(selector);
                 const response = await ServerAPI.get(`/getDOMElementImage`, {
                     params: {
                         css: selector,

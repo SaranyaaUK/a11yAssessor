@@ -17,12 +17,14 @@ import dotenv from "dotenv";
 dotenv.config()
 // Middleware
 import express from "express";
+import passport from "./config/passportConfig.js";
 // For CORS enabling
 import cors from "cors";
 // Routes
 import authentication from "./routes/authentication.js";
+import forgotPassword from "./routes/forgotPassword.js";
 import guestResult from "./routes/guestResults.js";
-
+import siteInfo from "./routes/sites.js";
 
 // App instance
 const app = express();
@@ -30,10 +32,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Server Routes
+/**
+ * 
+ * Server Routes
+ * 
+ * */
 
 // User authentication routes
 app.use("/api/v1/auth", authentication);
+
+// User password reset routes
+app.use("/api/v1/resetpassword", forgotPassword);
+
+// Site Route
+app.use("/api/v1/site", passport.authenticate('jwt', { session: false }), siteInfo);
 
 // Guest user result page route
 app.use("/api/v1", guestResult);

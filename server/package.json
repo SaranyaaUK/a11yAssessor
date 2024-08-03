@@ -20,6 +20,10 @@
     "nodemailer": "^6.9.14",
     "nodemon": "^3.1.4",
     "pa11y": "^8.0.0",
-    "pg": "^8.12.0"
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "pg": "^8.12.0",
+    "validator": "^13.12.0"
   }
 }
