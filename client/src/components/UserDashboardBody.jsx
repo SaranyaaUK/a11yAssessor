@@ -15,6 +15,8 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Modal from "react-bootstrap/Modal";
 import Stack from "react-bootstrap/Stack";
+// Components
+import SitesDisplay from "./UserDashboardSitesDisplay";
 // API
 import ServerAPI from "../apis/ServerAPI";
 // Notification
@@ -167,7 +169,7 @@ const UserDashboardBody = (props) => {
                             (<h3 className="d-flex justify-content-center mt-5">
                                 Add a site to begin evaluation
                             </h3>) :
-                            (<h3>{`No of sites: ${sitesList.length}`}</h3>)}
+                            (<SitesDisplay searchData={search} />)}
                     </Container>
                 </Stack>
             </Stack>

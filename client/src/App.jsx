@@ -14,17 +14,18 @@ import GuestResult from "./routes/GuestResultPage";
 import Login from './routes/LoginPage';
 import Register from './routes/RegisterPage';
 import VerifyEmail from "./routes/VerifyEmailPage"
-import ForgotPassword from './routes/ForgotPasswordPage';
-import UserDashboard from './routes/UserDashboardPage';
+import ForgotPassword from "./routes/ForgotPasswordPage";
+import UserDashboard from "./routes/UserDashboardPage";
+
 // Context Hook
-import { AppContextProvider, AuthenticationContext } from './context/AppContext';
+import { AppContextProvider, AuthenticationContext } from "./context/AppContext";
 
 // API
 import Server from "./apis/ServerAPI"
 
 // Toasts
-import 'react-toastify/ReactToastify.min.css'
-import { ToastContainer } from 'react-toastify';
+import "react-toastify/ReactToastify.min.css"
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
     // Context - Authentication

@@ -102,4 +102,70 @@ router.get("/", async (req, res) => {
     }
 });
 
+/**
+ * 
+ * Get site by ID
+ * 
+ */
+router.get("/:id", async (req, res) => {
+    try {
+        // If the user is authenticated the information will be available in
+        // the request
+        if (!req.user) {
+            res.status(403).json({
+                success: false,
+                message: "User session expired login and try again"
+            });
+        } else {
+            const id = req.params.id;
+            // Get site info
+            const getSiteQuery = `SELECT * FROM sites 
+                                    WHERE site_id=$1`;
+            const site = await db.query(getSiteQuery, [id]);
+
+            // Send response to the front-end
+            res.status(200).json({ success: true, site: site.rows[0] });
+        }
+    }
+    catch (error) {
+        // Send response to the front-end
+        console.error(error.message);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+});
+
+/**
+ * 
+ *  Delete site
+ * 
+ */
+router.delete("/:id", async (req, res) => {
+
+    try {
+        // Get the site name and url from the request
+        const site_id = req.params.id;
+
+        // If the user is authenticated the information will be available in
+        // the request
+        if (!req.user) {
+            res.status(403).json({
+                success: false,
+                message: "User session expired login and try again"
+            });
+        } else {
+
+            // Delete site by id
+            await db.query(`DELETE FROM sites WHERE site_id=$1`, [site_id]);
+
+            // Send response to the front-end
+            res.status(200).json({ success: true, message: "Site Deleted" });
+        }
+    }
+    catch (error) {
+        // Send response to the front-end
+        console.error(error.message);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+});
+
 export default router;
