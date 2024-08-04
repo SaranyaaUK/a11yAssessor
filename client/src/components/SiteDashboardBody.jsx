@@ -147,6 +147,7 @@ const SiteDashboardBody = () => {
                     {/* Automated Evaluation Column */}
                     <Col>
                         <SiteEvaluationCard
+                            cardHeader={"Automated Evaluation"}
                             isButtonDisabled={isAutoResultButtonDisabled}
                             timeStamp={timeStamp.auto_time}
                             site={site}
@@ -159,6 +160,7 @@ const SiteDashboardBody = () => {
                     {/* Manual Evaluation Column */}
                     <Col>
                         <SiteEvaluationCard
+                            cardHeader={"Manual Evaluation"}
                             isButtonDisabled={isManualResultButtonDisabled}
                             timeStamp={timeStamp.manual_time}
                             site={site}

@@ -13,12 +13,12 @@ import Spinner from "react-bootstrap/Spinner";
 import Stack from "react-bootstrap/Stack";
 import Badge from "react-bootstrap/esm/Badge";
 
-const SiteEvaluationCard = ({ isButtonDisabled, timeStamp, site, isResultloading, iconClass, evalBtnClick, resultBtnClick }) => {
+const SiteEvaluationCard = ({ cardHeader, isButtonDisabled, timeStamp, site, isResultloading, iconClass, evalBtnClick, resultBtnClick }) => {
 
     // Render the component
     return (
         <Card style={{ height: "20rem" }} className="overflow-x-auto">
-            <Card.Header>Automated Evaluation</Card.Header>
+            <Card.Header>{cardHeader}</Card.Header>
             <Card.Body className="mt-3">
                 <Stack direction="horizontal" gap={2} className="mt-3">
                     {/* Icon for the evaluation */}
