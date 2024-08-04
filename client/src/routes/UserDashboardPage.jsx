@@ -1,7 +1,8 @@
 /**
  * 
- * UserDashboardPage.jsx 
- * Component that represents the home page
+ * UserDashboardPage.jsx
+ * 
+ * Component that represents the user dashboard page
  * 
  */
 

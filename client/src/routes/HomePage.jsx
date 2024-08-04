@@ -1,6 +1,7 @@
 /**
  * 
- * HomePage.jsx 
+ * HomePage.jsx
+ * 
  * Component that represents the home page
  * 
  */

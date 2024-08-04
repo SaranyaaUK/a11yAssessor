@@ -1,5 +1,6 @@
 /**
- * GuestResultPage.jsx 
+ * GuestResultPage.jsx
+ * 
  * Component that represents the result page for guest users
  * 
  */
@@ -37,11 +38,11 @@ const GuestResult = (props) => {
     }, [url, setResults]) // Empty dependency array - UseEffect hook will only run when the component mounts 
 
     return (
-        <div>
+        <>
             <Header />
             {(isResultsReady && url) ? (<ResultPageBody url={url} results={results} />) : (<Loading />)}
             <Footer />
-        </div >
+        </>
     )
 }
 

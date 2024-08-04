@@ -1,6 +1,7 @@
 /**
- * LoginPage.jsx 
- * Component that represents the home page
+ * LoginPage.jsx
+ * 
+ * Component that represents the login page
  * 
  */
 

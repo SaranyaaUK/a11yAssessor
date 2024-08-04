@@ -5,6 +5,7 @@
  *  Defines the sites card display in user dashboard
  * 
  */
+
 import React, { useContext, useState } from "react";
 import { useNavigate, generatePath } from "react-router-dom";
 // Context
@@ -74,6 +75,8 @@ const UserDashboardSitesDisplay = ({ searchData }) => {
     const handleShow = () => {
         setShow(true);
     }
+
+    // Render the component
     return (
         <>
             <Row>
@@ -92,7 +95,8 @@ const UserDashboardSitesDisplay = ({ searchData }) => {
                                         <Card.Img
                                             className="p-2"
                                             src="/a11y.png"
-                                            style={{ width: '8rem', height: '8rem' }} />
+                                            style={{ width: '8rem', height: '8rem' }}
+                                        />
                                         <Button
                                             className="ms-auto"
                                             onClick={() => onProceedBtnClick(item.site_id)}>

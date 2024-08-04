@@ -16,6 +16,8 @@ import Register from './routes/RegisterPage';
 import VerifyEmail from "./routes/VerifyEmailPage"
 import ForgotPassword from "./routes/ForgotPasswordPage";
 import UserDashboard from "./routes/UserDashboardPage";
+import SiteDashboard from "./routes/SiteDashboardPage";
+import SiteAutomatedResult from "./routes/SiteAutomatedResultPage";
 
 // Context Hook
 import { AppContextProvider, AuthenticationContext } from "./context/AppContext";
@@ -60,6 +62,9 @@ const App = () => {
             <div>
                 <Router>
                     <Routes>
+                        {/* 
+                            Unauthorised Routes
+                        */}
                         {/* Home Page */}
                         <Route exact path="/" element={!isAuthenticated ? (<Home />) : (<Navigate to="/dashboard" />)} />
                         {/* Guest User Result Page */}
@@ -80,6 +85,10 @@ const App = () => {
                         */}
                         {/* User Dashboard */}
                         <Route exact path="/dashboard" element={isAuthenticated ? (<UserDashboard />) : (<Navigate to="/login" />)} />
+                        {/* Site Dashboard */}
+                        <Route exact path="/dashboard/:siteid" element={isAuthenticated ? (<SiteDashboard />) : (<Navigate to="/login" />)} />
+                        {/* Automated evaluation result */}
+                        <Route exact path="/dashboard/result/automated/:siteid" element={isAuthenticated ? (<SiteAutomatedResult />) : (<Navigate to="/login" />)} />
                     </Routes>
                 </Router>
                 <ToastContainer />

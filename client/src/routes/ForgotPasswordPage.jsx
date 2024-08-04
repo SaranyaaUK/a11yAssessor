@@ -1,5 +1,6 @@
 /**
- * ForgotPasswordPage.jsx 
+ * ForgotPasswordPage.jsx
+ * 
  * Component that represents the password reset page
  * 
  */

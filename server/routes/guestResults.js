@@ -19,30 +19,31 @@ const router = express.Router();
 router.get("/getDOMElementImage", async (req, res) => {
 
     try {
-        // <TO DO> Add error checks url and css not available
-
         // Get the url
         const url = decodeURIComponent(req.query.url)
         const selector = req.query.css;
-
+        let options = {}
+        if (req.query.element) {
+            options = {
+                // Highlight the element before taking screenshot
+                beforeScreenshot: async (page, browser) => {
+                    await page.evaluate((element) => {
+                        const elem = document.querySelector(`${element}`);
+                        if (!elem) {
+                            return;
+                        };
+                        elem.style.outline = '6px solid red'; elem.style['outline-offset'] = '12px';
+                        elem.scrollIntoView({ block: 'center' });
+                    }, selector)
+                },
+                // Element to capture 
+                element: selector,
+                // Inset around the element
+                inset: -50,
+            }
+        }
         // Use capture-website to get image of the element from the given url
-        const img = await captureWebsite.base64(url, {
-            // Highlight the element before taking screenshot
-            beforeScreenshot: async (page, browser) => {
-                await page.evaluate((element) => {
-                    const elem = document.querySelector(`${element}`);
-                    if (!elem) {
-                        return;
-                    };
-                    elem.style.outline = '6px solid red'; elem.style['outline-offset'] = '12px';
-                    elem.scrollIntoView({ block: 'center' });
-                }, selector)
-            },
-            // Element to capture 
-            element: selector,
-            // Inset around the element
-            inset: -50,
-        })
+        const img = await captureWebsite.base64(url, options);
 
         // Send the base-64 image to the front-end
         res.status(200).json(img);

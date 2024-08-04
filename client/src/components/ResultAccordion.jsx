@@ -43,13 +43,13 @@ const ResultAccordion = ({ url, groupedResults }) => {
                     params: {
                         css: selector,
                         url: url,
+                        element: true
                     }
-
                 });
                 setSelector(selector);
                 setImage(response.data);
             } catch (err) {
-
+                console.log("Cannot retrieve image!");
             }
         }
         fetchResult(selector);

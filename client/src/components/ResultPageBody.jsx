@@ -5,7 +5,7 @@
  *  The component renders the body of the guest result page
  * 
  */
-import React from "react";
+import React, { useContext } from "react";
 // React-Bootstrap Components
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -18,10 +18,12 @@ import Stack from 'react-bootstrap/Stack';
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Tooltip from "react-bootstrap/Tooltip";
-
+// Context
+import { AuthenticationContext } from "../context/AppContext";
 
 
 const ResultPageBody = ({ url, results }) => {
+    const { isAuthenticated } = useContext(AuthenticationContext);
 
     const errorsPresent = Object.keys(results.groupedErrors).length !== 0;
     const warningsPresent = Object.keys(results.groupedWarnings).length !== 0;
@@ -29,8 +31,8 @@ const ResultPageBody = ({ url, results }) => {
 
     // Render the component
     return (
-        <Container>
-            <Row>
+        <Container className="px-5 py-3" fluid >
+            <Row className="p-2">
                 <h1 className="display-4"> Results </h1>
             </Row>
 
@@ -53,19 +55,23 @@ const ResultPageBody = ({ url, results }) => {
                         <Tab eventKey={1} title="Warnings">
                             {/* Display warnings if present and user is authenticated */}
                             {
-                                (!warningsPresent) ?
-                                    (<h2 className="d-flex justify-content-center align-items-center">No Warnings found</h2>) :
-                                    (<ResultAccordion url={url} groupedResults={results.groupedWarnings} />)
+                                (isAuthenticated) ?
+                                    ((!warningsPresent) ?
+                                        (<h2 className="d-flex justify-content-center align-items-center">No Warnings found</h2>) :
+                                        (<ResultAccordion url={url} groupedResults={results.groupedWarnings} />)) :
+                                    (<h2 className="text-center"><a href="/login">Login</a> to view warnings</h2>)
+
                             }
                         </Tab>
 
                         <Tab eventKey={2} title="Notices">
                             {/* Display notices if present and user is authenticated */}
-                            {/* <h2><a href="/">Login</a> to view notices</h2> */}
                             {
-                                (!noticesPresent) ?
-                                    (<h2 className="d-flex justify-content-center align-items-center">No Notices found</h2>) :
-                                    (<ResultAccordion url={url} groupedResults={results.groupedNotices} />)
+                                (isAuthenticated) ?
+                                    ((!noticesPresent) ?
+                                        (<h2 className="d-flex justify-content-center align-items-center">No Notices found</h2>) :
+                                        (<ResultAccordion url={url} groupedResults={results.groupedNotices} />)) :
+                                    (<h2 className="text-center"><a href="/login">Login</a> to view notices</h2>)
                             }
                         </Tab>
                     </Tabs>

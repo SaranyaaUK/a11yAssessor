@@ -38,6 +38,12 @@ router.post("/", async (req, res) => {
                                   RETURNING *`;
             let newSite = await db.query(addSiteQuery, [name, encodeURIComponent(url)]);
 
+            // Add TimeStamp
+            const addTimestampQuery = `INSERT INTO result_time(site_id)
+                                  VALUES ($1) 
+                                  RETURNING *`;
+            await db.query(addTimestampQuery, [newSite.rows[0].site_id]);
+
             // If the site addition is successful, 
             // Add entry into the evaluator table
             // and send data to the front-end
@@ -118,13 +124,27 @@ router.get("/:id", async (req, res) => {
             });
         } else {
             const id = req.params.id;
-            // Get site info
-            const getSiteQuery = `SELECT * FROM sites 
-                                    WHERE site_id=$1`;
-            const site = await db.query(getSiteQuery, [id]);
+
+            // Get the site info and timestamp info
+            const combinedQuery = `SELECT s.*, rt.*
+                                    FROM sites s
+                                    JOIN result_time rt ON s.site_id = rt.site_id
+                                    WHERE s.site_id = $1`;
+            const result = await db.query(combinedQuery, [id]);
 
             // Send response to the front-end
-            res.status(200).json({ success: true, site: site.rows[0] });
+            res.status(200).json({
+                success: true,
+                site: {
+                    site_id: result.rows[0].site_id,
+                    name: result.rows[0].name,
+                    url: result.rows[0].url
+                },
+                timeStamp: {
+                    auto_time: result.rows[0].auto_time,
+                    manual_time: result.rows[0].manual_time
+                }
+            });
         }
     }
     catch (error) {

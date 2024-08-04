@@ -22,6 +22,7 @@ import passport from "./config/passportConfig.js";
 import cors from "cors";
 // Routes
 import authentication from "./routes/authentication.js";
+import automatedResult from "./routes/automatedResults.js";
 import forgotPassword from "./routes/forgotPassword.js";
 import guestResult from "./routes/guestResults.js";
 import siteInfo from "./routes/sites.js";
@@ -38,16 +39,25 @@ app.use(express.json());
  * 
  * */
 
-// User authentication routes
+// User authentication Routes
 app.use("/api/v1/auth", authentication);
 
-// User password reset routes
+/**
+ *  Authorised Routes
+ */
+// User password reset Routes
 app.use("/api/v1/resetpassword", forgotPassword);
 
 // Site Route
 app.use("/api/v1/site", passport.authenticate('jwt', { session: false }), siteInfo);
 
-// Guest user result page route
+// Automated Result Routes
+app.use("/api/v1/results/automated/", passport.authenticate('jwt', { session: false }), automatedResult);
+
+/**
+ *  Unauthorised Routes
+ */
+// Guest user result page Routes
 app.use("/api/v1", guestResult);
 
 const PORT = process.env.PORT || 5000;

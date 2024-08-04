@@ -1,6 +1,7 @@
 /**
- * EmailVerifyPage.jsx 
- * Component that represents the home page
+ * EmailVerifyPage.jsx
+ * 
+ * Component that represents the email verification page
  * 
  */
 
