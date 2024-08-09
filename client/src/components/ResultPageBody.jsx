@@ -6,8 +6,11 @@
  * 
  */
 import React, { useContext } from "react";
+import { useNavigate, generatePath } from "react-router-dom";
 // React-Bootstrap Components
 import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -22,18 +25,53 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { AuthenticationContext } from "../context/AppContext";
 
 
-const ResultPageBody = ({ url, results }) => {
+const ResultPageBody = ({ url, results, siteid }) => {
+    const navigate = useNavigate();
+    // Authentication Context
     const { isAuthenticated } = useContext(AuthenticationContext);
 
     const errorsPresent = Object.keys(results.groupedErrors).length !== 0;
     const warningsPresent = Object.keys(results.groupedWarnings).length !== 0;
     const noticesPresent = Object.keys(results.groupedNotices).length !== 0;
 
+    // Callback - Home button 
+    const onHomeBtnClick = (e) => {
+        e.preventDefault();
+        navigate(generatePath("/dashboard"));
+    }
+
+    // Callback - Site Home button 
+    const onSiteHomeBtnClick = (e) => {
+        e.preventDefault();
+        navigate(generatePath(`/dashboard/${siteid}`));
+    }
+
     // Render the component
     return (
         <Container className="px-5 py-3" fluid >
             <Row className="p-2">
-                <h1 className="display-4"> Results </h1>
+                <Stack direction="horizontal" gap={5}>
+                    <h1 className="display-4"> Results </h1>
+                    {/* For navigation to user dashboard or site dashboard */}
+                    {
+                        (isAuthenticated) ? (<ButtonToolbar aria-label="Toolbar with button groups" className="ms-auto">
+                            <ButtonGroup className="m-2">
+                                <Button size="sm" onClick={(e) => onHomeBtnClick(e)}>
+                                    <Stack direction="horizontal" gap={2}>
+                                        <i className="fa-solid fa-house" />
+                                        <>Home</>
+                                    </Stack>
+                                </Button>
+                                <Button size="sm" onClick={(e) => onSiteHomeBtnClick(e)}>
+                                    <Stack direction="horizontal" gap={2}>
+                                        <i className="fa-solid fa-file-export" />
+                                        <>Site Home</>
+                                    </Stack>
+                                </Button>
+                            </ButtonGroup>
+                        </ButtonToolbar>) : (<></>)
+                    }
+                </Stack>
             </Row>
 
             <Row>
@@ -78,7 +116,7 @@ const ResultPageBody = ({ url, results }) => {
                 </Col>
                 <Col>
                     {/* Evaluated page URL - Fallback if the URL refuses to connect*/}
-                    <Stack gap={1}>
+                    <Stack gap={2}>
                         <Stack direction="horizontal" gap={1}>
                             <OverlayTrigger
                                 placement="bottom"

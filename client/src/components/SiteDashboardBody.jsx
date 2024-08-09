@@ -120,7 +120,7 @@ const SiteDashboardBody = () => {
 
     // Render the component
     return (
-        <Container className="overflow-auto p-5" style={{ height: "60vh" }} fluid>
+        <Container className="overflow-auto p-5" style={{ height: "70vh" }} fluid>
             {/* Header  */}
             <Stack gap={5}>
                 <Stack direction="horizontal" gap={5}>

@@ -24,6 +24,7 @@ router.get("/getDOMElementImage", async (req, res) => {
         const selector = req.query.css;
         let options = {}
         if (req.query.element) {
+            // Snap shot of specific element in the page
             options = {
                 // Highlight the element before taking screenshot
                 beforeScreenshot: async (page, browser) => {
@@ -40,6 +41,12 @@ router.get("/getDOMElementImage", async (req, res) => {
                 element: selector,
                 // Inset around the element
                 inset: -50,
+            }
+        } else {
+            // Snap shot of the full page
+            options = {
+                width: 568,
+                height: 320
             }
         }
         // Use capture-website to get image of the element from the given url

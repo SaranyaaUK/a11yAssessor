@@ -45,7 +45,7 @@ const SiteAutomatedResultPage = (props) => {
     return (
         <>
             <Header />
-            {(isResultsReady) ? (<ResultPageBody url={decodeURIComponent(location.state.url)} results={results} />) : (<Loading />)}
+            {(isResultsReady) ? (<ResultPageBody url={decodeURIComponent(location.state.url)} results={results} siteid={location.state.site_id} />) : (<Loading />)}
             <Footer />
         </ >
     )

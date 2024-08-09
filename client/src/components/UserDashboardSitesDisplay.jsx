@@ -6,7 +6,7 @@
  * 
  */
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, generatePath } from "react-router-dom";
 // Context
 import { AppContext } from "../context/AppContext";
@@ -26,10 +26,32 @@ import { toast } from "react-toastify";
 const UserDashboardSitesDisplay = ({ searchData }) => {
     const navigate = useNavigate();
     // Context
-    const { sitesList, setSitesList } = useContext(AppContext);
+    const { sitesList, setSitesList, siteImageList, setSitesImage } = useContext(AppContext);
     // States
     const [show, setShow] = useState(false);
     const [siteId, setSiteId] = useState("");
+
+    // Show image of the webpage on the card
+    useEffect(() => {
+        const fetchResult = async () => {
+            try {
+                sitesList.map(async (item) => {
+                    const response = await ServerAPI.get(`/getDOMElementImage`, {
+                        params: {
+                            url: item.url
+                        }
+                    });
+                    setSitesImage((imageList) => ({
+                        ...imageList,
+                        [item.site_id]: response.data,
+                    }))
+                })
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchResult();
+    }, [sitesList, setSitesImage])
 
     // Callback - Delete site 
     const onDeleteBtnClick = async (e, site_id) => {
@@ -87,16 +109,12 @@ const UserDashboardSitesDisplay = ({ searchData }) => {
                     })
                     // Make a card for each of the site
                     .map((item, index) => (
-                        <Col key={index} className="pb-3">
-                            <Card style={{ height: '15rem' }}>
-                                <Card.Header>{item.name.toUpperCase()}</Card.Header>
-                                <Card.Body className="mt-3">
+                        <Col key={index} md={3} className="pb-2">
+                            <Card>
+                                <Card.Header>
                                     <Stack direction="horizontal" gap={2}>
-                                        <Card.Img
-                                            className="p-2"
-                                            src="/a11y.png"
-                                            style={{ width: '8rem', height: '8rem' }}
-                                        />
+                                        {item.name.toUpperCase()}
+                                        {/* Buttons on the header */}
                                         <Button
                                             className="ms-auto"
                                             onClick={() => onProceedBtnClick(item.site_id)}>
@@ -112,7 +130,11 @@ const UserDashboardSitesDisplay = ({ searchData }) => {
                                             </Stack>
                                         </Button>
                                     </Stack>
-                                </Card.Body>
+                                </Card.Header>
+                                {/* Show a snapshot of the webpage on the card */}
+                                {(siteImageList[item.site_id]) ?
+                                    (<Card.Img className="p-2" src={`data:image/jpeg;base64,${siteImageList[item.site_id]}`} alt="" />) :
+                                    (<Card.Img className="p-2 " src="/a11y.png" style={{ width: "320px", height: "180px" }} alt="" />)}
                             </Card>
                         </Col>
                     ))

@@ -7,6 +7,7 @@ export const AuthenticationContext = createContext();
 export const AppContextProvider = props => {
     const [results, setResults] = useState([]);
     const [sitesList, setSitesList] = useState([]);
+    const [siteImageList, setSitesImage] = useState({});
 
     const addSite = (site) => {
         setSitesList([...sitesList, site]);
@@ -19,7 +20,9 @@ export const AppContextProvider = props => {
                 setResults,
                 sitesList,
                 setSitesList,
-                addSite
+                addSite,
+                siteImageList,
+                setSitesImage
             }} >
             {props.children}
         </AppContext.Provider>
