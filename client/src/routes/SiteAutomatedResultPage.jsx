@@ -26,7 +26,7 @@ const SiteAutomatedResultPage = (props) => {
     useEffect(() => {
         const fetchResult = async () => {
             try {
-                const response = await ServerAPI.get(`/results/automated/${location.state.site_id}`,
+                const response = await ServerAPI.get(`/automated/results/${location.state.site_id}`,
                     {
                         headers: {
                             "token": localStorage.getItem("token"),

@@ -8,6 +8,7 @@ export const AppContextProvider = props => {
     const [results, setResults] = useState([]);
     const [sitesList, setSitesList] = useState([]);
     const [siteImageList, setSitesImage] = useState({});
+    const [evalFormData, setEvalFormData] = useState([]);
 
     const addSite = (site) => {
         setSitesList([...sitesList, site]);
@@ -22,7 +23,9 @@ export const AppContextProvider = props => {
                 setSitesList,
                 addSite,
                 siteImageList,
-                setSitesImage
+                setSitesImage,
+                evalFormData,
+                setEvalFormData
             }} >
             {props.children}
         </AppContext.Provider>

@@ -46,8 +46,9 @@ const SiteDashboardBody = () => {
                 const parseRes = response.data;
                 setSite(parseRes.site);
                 setTimeStamp(parseRes.timeStamp);
+
                 // Check and enable the Auto result button
-                const autoResponse = await ServerAPI.get(`/results/automated/${site_id}`,
+                const autoResponse = await ServerAPI.get(`/automated/results/${site_id}`,
                     {
                         headers: {
                             "token": localStorage.getItem("token"),
@@ -57,7 +58,19 @@ const SiteDashboardBody = () => {
                 if (autoResponse.data.result) {
                     setAutoResultButtonDisabled(false);
                 }
-                // <TO DO> Check and enable the Manual result button
+
+                // Check and enable the Manual result button
+                const manualResponse = await ServerAPI.get(`/manual/results/${site_id}`,
+                    {
+                        headers: {
+                            "token": localStorage.getItem("token"),
+                        }
+                    }
+                );
+
+                if (manualResponse.data.result) {
+                    setManualResultButtonDisabled(false);
+                }
             } catch (err) {
                 console.log(err);
                 toast.error("Cannot retrive data!", { position: "top-center" });
@@ -71,7 +84,7 @@ const SiteDashboardBody = () => {
         try {
             setResultLoading(true);
             const body = { site_id, url };
-            const response = await ServerAPI.post(`/results/automated`, JSON.stringify(body),
+            const response = await ServerAPI.post(`/automated/results`, JSON.stringify(body),
                 {
                     headers: {
                         "Content-type": "application/json",
@@ -93,7 +106,7 @@ const SiteDashboardBody = () => {
 
     // Callback - Automated Evaluation result button
     const onAutomatedResultBtnClick = () => {
-        const path = generatePath(`/dashboard/result/automated/${site.site_id}`);
+        const path = generatePath(`/result/automated/${site.site_id}`);
         navigate(path, {
             state: {
                 "url": site.url,
@@ -104,12 +117,25 @@ const SiteDashboardBody = () => {
 
     // Callback - Manual Evaluation button
     const onManualEvalBtnClick = () => {
-        // <TO DO>
+        const path = generatePath(`/manual/${site.site_id}`);
+        navigate(path, {
+            state: {
+                "url": site.url,
+                "site_id": site.site_id
+            }
+        });
+        toast.info("Save your data as you progress using the save button!", { position: "top-center" });
     }
 
     // Callback - Manual Evaluation result button
     const onManualResultBtnClick = () => {
-        // <TO DO>
+        const path = generatePath(`/result/manual/${site.site_id}`);
+        navigate(path, {
+            state: {
+                "url": site.url,
+                "site_id": site.site_id
+            }
+        });
     }
 
     // Callback - Home button 

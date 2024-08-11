@@ -12,7 +12,7 @@ import express from "express";
 const router = express.Router();
 import getPa11yResult from "../utils/getPa11yResult.js";
 
-router.post("/", async (req, res) => {
+router.post("/results", async (req, res) => {
 
     try {
         // Get the site id and url from the request
@@ -78,7 +78,7 @@ router.post("/", async (req, res) => {
 });
 
 // Get automated Result by site id
-router.get("/:siteid", async (req, res) => {
+router.get("/results/:siteid", async (req, res) => {
     try {
         // Get the site id, url from the request
         const siteid = req.params.siteid;

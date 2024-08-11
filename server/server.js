@@ -22,9 +22,10 @@ import passport from "./config/passportConfig.js";
 import cors from "cors";
 // Routes
 import authentication from "./routes/authentication.js";
-import automatedResult from "./routes/automatedResults.js";
+import automated from "./routes/automatedResults.js";
 import forgotPassword from "./routes/forgotPassword.js";
 import guestResult from "./routes/guestResults.js";
+import manual from "./routes/manualEvaluation.js";
 import siteInfo from "./routes/sites.js";
 
 // App instance
@@ -48,11 +49,14 @@ app.use("/api/v1/auth", authentication);
 // User password reset Routes
 app.use("/api/v1/resetpassword", forgotPassword);
 
-// Site Route
+// Site Routes
 app.use("/api/v1/site", passport.authenticate('jwt', { session: false }), siteInfo);
 
-// Automated Result Routes
-app.use("/api/v1/results/automated/", passport.authenticate('jwt', { session: false }), automatedResult);
+// Automated Evaluation Routes
+app.use("/api/v1/automated", passport.authenticate('jwt', { session: false }), automated);
+
+// Manual Evaluation Routes
+app.use("/api/v1/manual", passport.authenticate('jwt', { session: false }), manual);
 
 /**
  *  Unauthorised Routes

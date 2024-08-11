@@ -18,6 +18,8 @@ import ForgotPassword from "./routes/ForgotPasswordPage";
 import UserDashboard from "./routes/UserDashboardPage";
 import SiteDashboard from "./routes/SiteDashboardPage";
 import SiteAutomatedResult from "./routes/SiteAutomatedResultPage";
+import SiteManualEvaluation from "./routes/SiteManualEvaluationPage";
+import SiteManualResult from "./routes/SiteManualResultPage";
 
 // Context Hook
 import { AppContextProvider, AuthenticationContext } from "./context/AppContext";
@@ -88,7 +90,11 @@ const App = () => {
                         {/* Site Dashboard */}
                         <Route exact path="/dashboard/:siteid" element={isAuthenticated ? (<SiteDashboard />) : (<Navigate to="/login" />)} />
                         {/* Automated evaluation result */}
-                        <Route exact path="/dashboard/result/automated/:siteid" element={isAuthenticated ? (<SiteAutomatedResult />) : (<Navigate to="/login" />)} />
+                        <Route exact path="/result/automated/:siteid" element={isAuthenticated ? (<SiteAutomatedResult />) : (<Navigate to="/login" />)} />
+                        {/* Guided manual evaluation */}
+                        <Route exact path="/manual/:siteid" element={isAuthenticated ? (<SiteManualEvaluation />) : (<Navigate to="/login" />)} />
+                        {/* Manual evaluation result */}
+                        <Route exact path="/result/manual/:siteid" element={isAuthenticated ? (<SiteManualResult />) : (<Navigate to="/login" />)} />
                     </Routes>
                 </Router>
                 <ToastContainer />
