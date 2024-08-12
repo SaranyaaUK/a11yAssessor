@@ -10,7 +10,6 @@ import { useLocation, useNavigate, generatePath } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import Container from "react-bootstrap/Container";
 import Stack from 'react-bootstrap/Stack';
 import Table from "react-bootstrap/Table";
 // Components
@@ -98,7 +97,7 @@ const ManualResultPage = (props) => {
 
     // Render the component
     return (
-        <Container className="p-5" fluid>
+        <Stack gap={2} className="p-5">
             <Stack direction="horizontal" gap={5}>
                 <h1 className="display-4"> Results </h1>
                 {/* For navigation to user dashboard or site dashboard */}
@@ -119,6 +118,10 @@ const ManualResultPage = (props) => {
                     </ButtonGroup>
                 </ButtonToolbar>
             </Stack>
+            <div className="ms-auto">
+                <span className="">Target webpage: </span>
+                <a className="align-items-center" target="_blank" href={decodeURIComponent(location.state.url)} rel="noreferrer">{decodeURIComponent(location.state.url)}</a>
+            </div>
             {/* Result table */}
             <Table bordered responsive>
                 <thead>
@@ -132,7 +135,7 @@ const ManualResultPage = (props) => {
                 </thead>
                 {(tablebody) ? (<tbody>{tablebody}</tbody>) : (<tbody><tr><td>{<Loading />}</td></tr></tbody>)}
             </Table>
-        </Container>
+        </Stack>
     )
 }
 

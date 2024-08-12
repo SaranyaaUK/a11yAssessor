@@ -10,7 +10,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, generatePath } from "react-router-dom";
 // React-Bootstrap components
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/esm/Container";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
+import Container from "react-bootstrap/Container";
+import Modal from "react-bootstrap/Modal";
 import Stack from "react-bootstrap/Stack";
 // Components
 import ManualEvalFormBody from "./ManualEvalFormBody";
@@ -28,6 +31,7 @@ const ManualEvaluationForm = () => {
     const { evalFormData, setEvalFormData } = useContext(AppContext);
     // State
     const [evalFormDetails, setEvalFormDetails] = useState(null);
+    const [show, setShow] = useState(false);
     const site_id = location.state.site_id;
     const url = location.state.url;
     const formWizardRef = React.createRef();
@@ -97,7 +101,6 @@ const ManualEvaluationForm = () => {
     const postResults = async () => {
         try {
             const body = { site_id, evalFormData };
-            console.log("FromData", evalFormData);
             await ServerAPI.post(`/manual/results`, JSON.stringify(body),
                 {
                     headers: {
@@ -124,10 +127,9 @@ const ManualEvaluationForm = () => {
     };
 
     // Callback - Reset 
-    const handleReset = async () => {
-        // Reset the formData and then post the result
-        setEvalFormData(initializeManualResult(evalFormDetails));
-        await postResults();
+    const handleReset = (e) => {
+        e.preventDefault();
+        handleShow();
     }
 
     // Callback - Save progress
@@ -135,14 +137,67 @@ const ManualEvaluationForm = () => {
         await postResults();
     }
 
+    // Callback - Home button 
+    const onHomeBtnClick = (e) => {
+        e.preventDefault();
+        navigate(generatePath("/dashboard"));
+    }
+
+    // Callback - Site Home button 
+    const onSiteHomeBtnClick = (e) => {
+        e.preventDefault();
+        navigate(generatePath(`/dashboard/${site_id}`));
+    }
+
+    // Callback - Reset confirmation
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        // Reset the formData and then post the result
+        setEvalFormData(initializeManualResult(evalFormDetails));
+        await postResults();
+        handleClose();
+    }
+
+    // Handle delete confirmation dialog visibility
+    const handleClose = () => {
+        setShow(false)
+    };
+
+    const handleShow = () => {
+        setShow(true);
+    }
+
     // Render the components
     return (
         <Container className="p-5">
             {evalFormDetails ? (
                 <>
-                    <Stack direction="horizontal" gap={2} className="p-3">
-                        <Button className="reset-button ms-auto" onClick={handleReset}>Reset</Button>
-                        <Button className="save-button " onClick={handleSave}>Save</Button>
+                    <Stack gap={3}>
+                        <Stack direction="horizontal" gap={2} className="p-3">
+                            <Button className="reset-button" onClick={(e) => handleReset(e)}>Reset</Button>
+                            <Button className="save-button " onClick={handleSave}>Save</Button>
+                            {/* For navigation to user dashboard or site dashboard */}
+                            <ButtonToolbar aria-label="Toolbar with button groups" className="ms-auto">
+                                <ButtonGroup className="m-2">
+                                    <Button size="sm" onClick={(e) => onHomeBtnClick(e)}>
+                                        <Stack direction="horizontal" gap={2}>
+                                            <i className="fa-solid fa-house" />
+                                            <>Home</>
+                                        </Stack>
+                                    </Button>
+                                    <Button size="sm" onClick={(e) => onSiteHomeBtnClick(e)}>
+                                        <Stack direction="horizontal" gap={2}>
+                                            <i className="fa-solid fa-file-export" />
+                                            <>Site Home</>
+                                        </Stack>
+                                    </Button>
+                                </ButtonGroup>
+                            </ButtonToolbar>
+                        </Stack>
+                        <div className="ms-auto">
+                            <span className="">Target webpage: </span>
+                            <a className="align-items-center" target="_blank" href={decodeURIComponent(url)} rel="noreferrer">{decodeURIComponent(url)}</a>
+                        </div>
                     </Stack>
                     {/* Multi-step form */}
                     <FormWizard
@@ -190,6 +245,19 @@ const ManualEvaluationForm = () => {
             ) :
                 (<h1>Loading....</h1>)
             }
+            {/* Reset confirmation dialog */}
+            <Modal show={show} onHide={handleClose} dialogClassName="modal-90w">
+                <Modal.Header closeButton>
+                    <Modal.Title>Reset Confirmation</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Are you sure you want to reset the evaluation?</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="success" onClick={(e) => onSubmit(e)}>Confirm</Button>
+                    <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+                </Modal.Footer>
+            </Modal >
         </Container>
     )
 

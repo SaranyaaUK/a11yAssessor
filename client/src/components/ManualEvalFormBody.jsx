@@ -40,7 +40,7 @@ const ManualEvalFormBody = ({ formContent, principles }) => {
                     {principles.find(principle => principle.title === formContent[0].principle_name).description}
                 </Stack>
                 <Stack>
-                    <Accordion defaultActiveKey="0">
+                    <Accordion>
                         {
                             // For each principle lay out all the guidelines with instructions for evaluation
                             formContent.map((item, index) => (
@@ -106,7 +106,7 @@ const ManualEvalFormBody = ({ formContent, principles }) => {
                                             <h4>More Info</h4>
                                             <ul>
                                                 {item.moreinfo.map((link, id) => (
-                                                    <li key={id}><a href={link}>{link}</a></li>
+                                                    <li key={id} className="text-break"><a href={link} target="_blank" rel="noreferrer">{link}</a></li>
                                                 ))}
                                             </ul>
                                             {/*  Give the benefits acquired by the given success criteria */}
