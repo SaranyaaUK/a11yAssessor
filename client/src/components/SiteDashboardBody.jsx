@@ -160,12 +160,6 @@ const SiteDashboardBody = () => {
                                     <>Home</>
                                 </Stack>
                             </Button>
-                            <Button size="sm" >
-                                <Stack direction="horizontal" gap={2}>
-                                    <i className="fa-solid fa-file-export" />
-                                    <>Result</>
-                                </Stack>
-                            </Button>
                         </ButtonGroup>
                     </ButtonToolbar>
                 </Stack>
