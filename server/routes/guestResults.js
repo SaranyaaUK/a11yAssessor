@@ -7,6 +7,7 @@
  */
 
 import captureWebsite from "capture-website";
+import chrome from "@sparticuz/chromium";
 import getPa11yResult from "../utils/getPa11yResult.js";
 import express from "express";
 const router = express.Router();
@@ -22,6 +23,19 @@ router.get("/getDOMElementImage", async (req, res) => {
         // Get the url
         const url = decodeURIComponent(req.query.url)
         const selector = req.query.css;
+
+        // Chrome launch option
+        let launchOptions = {}
+        if (process.env.NODE_ENV === "production") {
+            launchOptions = {
+                args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
+                defaultViewport: chrome.defaultViewport,
+                executablePath: await chrome.executablePath(),
+                headless: "new",
+                ignoreHTTPSErrors: true,
+            }
+        }
+
         let options = {}
         if (req.query.element) {
             // Snap shot of specific element in the page
@@ -41,12 +55,14 @@ router.get("/getDOMElementImage", async (req, res) => {
                 element: selector,
                 // Inset around the element
                 inset: -50,
+                launchOptions: launchOptions,
             }
         } else if (req.query.width && req.query.width) {
             // Snap shot of the full page
             options = {
                 width: parseInt(req.query.width),
-                height: parseInt(req.query.height)
+                height: parseInt(req.query.height),
+                launchOptions: launchOptions,
             }
         }
         // Use capture-website to get image of the element from the given url
