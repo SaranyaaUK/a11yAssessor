@@ -3,6 +3,9 @@
 -- Create Database
 CREATE DATABASE a11yassessordb;
 
+-- Extension for uuid_generate_v4
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 -- Users table
 CREATE TABLE users(
     user_id uuid DEFAULT uuid_generate_v4(),
@@ -73,7 +76,7 @@ CREATE TABLE principles(
 );
 
 -- To populate the guidelines table
-\copy guidelines(title, moreinfo, benefits, principle_name) FROM '\server\utils\evaluationFrom\guidelines.csv' DELIMITER ',' CSV;
+\copy guidelines(title, moreinfo, benefits, principle_name) FROM '\server\utils\evaluationForm\guidelines.csv' DELIMITER ',' CSV;
 
 -- Guidelines Table 
 CREATE TABLE guidelines (
@@ -131,7 +134,7 @@ CREATE TABLE manual_questions (
 );
 
 -- To populate the questions table
-\copy manual_questions(title, guideline_name, q_text, instructions, extras) FROM '\server\utils\evaluationFrom\questions.csv' DELIMITER ',' CSV;
+\copy manual_questions(title, guideline_name, q_text, instructions, extras) FROM '\server\utils\evaluationForm\questions.csv' DELIMITER ',' CSV;
 
 -- Trigger to add a mapping for principles and guidelines
 
