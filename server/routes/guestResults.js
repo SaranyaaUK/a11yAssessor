@@ -42,11 +42,11 @@ router.get("/getDOMElementImage", async (req, res) => {
                 // Inset around the element
                 inset: -50,
             }
-        } else {
+        } else if (req.query.width && req.query.width) {
             // Snap shot of the full page
             options = {
-                width: 568,
-                height: 320
+                width: parseInt(req.query.width),
+                height: parseInt(req.query.height)
             }
         }
         // Use capture-website to get image of the element from the given url

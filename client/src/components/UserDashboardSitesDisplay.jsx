@@ -38,7 +38,9 @@ const UserDashboardSitesDisplay = ({ searchData }) => {
                 sitesList.map(async (item) => {
                     const response = await ServerAPI.get(`/getDOMElementImage`, {
                         params: {
-                            url: item.url
+                            url: item.url,
+                            width: 568,
+                            height: 320
                         }
                     });
                     setSitesImage((imageList) => ({

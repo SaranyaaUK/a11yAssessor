@@ -5,7 +5,7 @@
  *  The component renders the body of the guest result page
  * 
  */
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, generatePath } from "react-router-dom";
 // React-Bootstrap Components
 import Button from "react-bootstrap/Button";
@@ -13,8 +13,9 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
+import Figure from "react-bootstrap/Figure";
+import Loading from "./Loading";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Ratio from 'react-bootstrap/Ratio';
 import ResultAccordion from "./ResultAccordion";
 import Row from "react-bootstrap/Row";
 import Stack from 'react-bootstrap/Stack';
@@ -23,16 +24,39 @@ import Tabs from "react-bootstrap/Tabs";
 import Tooltip from "react-bootstrap/Tooltip";
 // Context
 import { AuthenticationContext } from "../context/AppContext";
+// API
+import ServerAPI from "../apis/ServerAPI";
 
 
 const ResultPageBody = ({ url, results, siteid }) => {
     const navigate = useNavigate();
     // Authentication Context
     const { isAuthenticated } = useContext(AuthenticationContext);
+    // States
+    const [image, setImage] = useState("");
 
     const errorsPresent = Object.keys(results.groupedErrors).length !== 0;
     const warningsPresent = Object.keys(results.groupedWarnings).length !== 0;
     const noticesPresent = Object.keys(results.groupedNotices).length !== 0;
+
+    useEffect(() => {
+        const fetchResult = async () => {
+            try {
+                const response = await ServerAPI.get(`/getDOMElementImage`, {
+                    params: {
+                        url: url,
+                        width: 900,
+                        height: 900
+                    }
+                });
+
+                setImage(response.data);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchResult();
+    }, [setImage, url])
 
     // Callback - Home button 
     const onHomeBtnClick = (e) => {
@@ -146,12 +170,20 @@ const ResultPageBody = ({ url, results, siteid }) => {
                             <span className="">URL: </span>
                             <a className="align-items-center" target="_blank" href={url} rel="noreferrer">{url}</a>
                         </Stack>
-                        {/* Embed the iframe */}
-                        <Ratio aspectRatio="1x1">
-                            <iframe title="Frame" src={url}>
-                                <p>This page is not allowed to be embedded in iframes.</p>
-                            </iframe>
-                        </Ratio>
+                        {/* Embed the webpage as an image */}
+                        <Figure className="p-2 image-responsive">
+                            {(image) ?
+                                (<Figure.Image
+                                    width={900}
+                                    height={900}
+                                    alt=""
+                                    src={`data:image/jpeg;base64,${image}`}
+                                />) :
+                                (<Loading />)}
+                            <Figure.Caption>
+                                Snapshot of the webpage
+                            </Figure.Caption>
+                        </Figure>
                     </Stack>
                 </Col>
             </Row>
