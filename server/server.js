@@ -31,7 +31,12 @@ import siteInfo from "./routes/sites.js";
 // App instance
 const app = express();
 // To allow fetching from server
-app.use(cors());
+const corsOption = {
+    origin: process.env.CLIENT_BASE_URL,
+    method: ["POST", "GET", "DELETE"],
+    credentials: true
+}
+app.use(cors(corsOption));
 app.use(express.json());
 
 /**

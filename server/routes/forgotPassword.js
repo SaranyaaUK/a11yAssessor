@@ -52,7 +52,7 @@ router.post("/", async (req, res) => {
         const token = generateJWT(user.rows[0].user_id, "1h");
 
         // Send the password reset email
-        const url = `${process.env.CLIENT_BASE_URL}/resetPassword/${user.rows[0].user_id}/${token}`;
+        const url = `${process.env.CLIENT_BASE_URL}/resetpassword/${user.rows[0].user_id}/${token}`;
         const name = user.rows[0].first_name.concat(" ", user.rows[0].last_name);
         await sendEmail(user.rows[0].email,
             emailInfo.passwordResetSubject,
@@ -86,7 +86,7 @@ router.post("/:id/:token", async (req, res) => {
 
         // If params are missing return
         if (!token || !id) {
-            return res.status(401).json({ message: "Invalid Link" });
+            return res.status(401).json({ success: false, message: "Invalid Link" });
         }
 
         // Check if password and confirm password matches
@@ -98,7 +98,7 @@ router.post("/:id/:token", async (req, res) => {
         const userQuery = `SELECT * 
                             FROM users
                             WHERE user_id = $1`;
-        const user = await pool.query(userQuery, [id]);
+        const user = await db.query(userQuery, [id]);
         // Verify the token
         const verify = jwt.verify(token, process.env.SECRET_KEY);
 
@@ -118,7 +118,7 @@ router.post("/:id/:token", async (req, res) => {
             // Send response to the front-end
             res.json({ success: true, message: "Password reset successfully!" });
         } else {
-            return res.json({ success: false, message: "Invalid Link" });
+            res.json({ success: false, message: "Invalid Link" });
         }
     } catch (error) {
         console.error(error.message);

@@ -185,7 +185,7 @@ const SiteDashboardBody = () => {
                             timeStamp={timeStamp.manual_time}
                             site={site}
                             isResultloading={false}
-                            iconClass={"fa-solid fa-chalkboard-user fa-10x"}
+                            iconClass={"fa-solid fa-user-shield fa-10x"}
                             evalBtnClick={onManualEvalBtnClick}
                             resultBtnClick={onManualResultBtnClick}
                         />

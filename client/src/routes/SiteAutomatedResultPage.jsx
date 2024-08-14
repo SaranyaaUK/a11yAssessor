@@ -33,7 +33,36 @@ const SiteAutomatedResultPage = (props) => {
                         }
                     }
                 );
-                setResults(response.data.result);
+                // Rearrange the result as errors, warnings and notices
+                const data = {
+                    groupedErrors: {},
+                    groupedWarnings: {},
+                    groupedNotices: {}
+                };
+
+                response.data.result.issues.forEach(element => {
+                    const groupKey = element.code;
+
+                    if (element.typeCode === 1) {
+                        if (!data.groupedErrors[groupKey]) {
+                            data.groupedErrors[groupKey] = [];
+                        }
+                        data.groupedErrors[groupKey].push(element);
+                    } else if (element.typeCode === 2) {
+                        if (!data.groupedWarnings[groupKey]) {
+                            data.groupedWarnings[groupKey] = [];
+                        }
+                        data.groupedWarnings[groupKey].push(element);
+                    } else if (element.typeCode === 3) {
+                        if (!data.groupedNotices[groupKey]) {
+                            data.groupedNotices[groupKey] = [];
+                        }
+                        data.groupedNotices[groupKey].push(element);
+                    }
+                });
+
+                // Return the group result
+                setResults(data);
             } catch (err) {
                 console.log(err);
             }

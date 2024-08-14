@@ -21,6 +21,8 @@ import SitesDisplay from "./UserDashboardSitesDisplay";
 import ServerAPI from "../apis/ServerAPI";
 // Notification
 import { toast } from "react-toastify";
+// Validator
+import validator from "validator";
 
 const UserDashboardBody = (props) => {
     // Context
@@ -87,6 +89,24 @@ const UserDashboardBody = (props) => {
     // Callback - Add site submit clicked
     const onSubmit = async (e) => {
         e.preventDefault();
+        // Validate the URL and name before proceeding 
+        if (name === "") {
+            toast.error("Webpage name is required to proceed",
+                { position: "top-center" }
+            );
+            return;
+        }
+        const options = {
+            protocols: ['http', 'https'],
+            require_protocol: true,
+            require_valid_protocol: true
+        }
+        if (!validator.isURL(url, options)) {
+            toast.error("Enter a valid URL, in the form as shown in the URL input field",
+                { position: "top-center" }
+            );
+            return;
+        }
         // Add site to the database
         try {
             // Add the data to the request

@@ -42,10 +42,10 @@ const Footer = () => {
                     <h5>Company</h5>
                     <ul className="nav flex-column">
                         <li className="nav-item mb-2">
-                            <a href="/" className="nav-link p-0 text-body-secondary">About Us</a>
+                            <a href="/about" className="nav-link p-0 text-body-secondary">About Us</a>
                         </li>
                         <li className="nav-item mb-2">
-                            <a href="/" className="nav-link p-0 text-body-secondary">Features</a>
+                            <a href="/features" className="nav-link p-0 text-body-secondary">Features</a>
                         </li>
                         {(!isAuthenticated) ?
                             (<li className="nav-item mb-2">

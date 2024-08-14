@@ -20,6 +20,8 @@ import SiteDashboard from "./routes/SiteDashboardPage";
 import SiteAutomatedResult from "./routes/SiteAutomatedResultPage";
 import SiteManualEvaluation from "./routes/SiteManualEvaluationPage";
 import SiteManualResult from "./routes/SiteManualResultPage";
+import AboutUs from "./routes/AboutPage";
+import Features from "./routes/FeaturesPage";
 
 // Context Hook
 import { AppContextProvider, AuthenticationContext } from "./context/AppContext";
@@ -70,7 +72,11 @@ const App = () => {
                         {/* Home Page */}
                         <Route exact path="/" element={!isAuthenticated ? (<Home />) : (<Navigate to="/dashboard" />)} />
                         {/* Guest User Result Page */}
-                        <Route exact path="/:url" element={<GuestResult />} />
+                        <Route exact path="/:url" element={!isAuthenticated ? (<GuestResult />) : (<Navigate to="/dashboard" />)} />
+                        {/* About us Page */}
+                        <Route exact path="/about" element={<AboutUs />} />
+                        {/* Features Page */}
+                        <Route exact path="/features" element={<Features />} />
                         {/* 
                             Authentication routes 
                         */}

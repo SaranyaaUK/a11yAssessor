@@ -21,7 +21,7 @@ function emailVerificationMessage(name, url) {
             </p>
             <p> ${url}</p>
             <p>This link will expire in 24 hours. 
-                If you did not sign up for a a11yAssessor account, 
+                If you did not sign up for an a11yAssessor account, 
                 you can safely ignore this email.
             </p>
             <p>Best,</p>

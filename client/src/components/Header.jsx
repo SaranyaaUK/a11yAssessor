@@ -48,8 +48,8 @@ const Header = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
                     <Nav>
-                        <Nav.Link href="/">About</Nav.Link>
-                        <Nav.Link href="/">Feature</Nav.Link>
+                        <Nav.Link href="/about">About Us</Nav.Link>
+                        <Nav.Link href="/features">Features</Nav.Link>
                         {(!isAuthenticated) ?
                             (<Nav.Link href="/login">Login</Nav.Link>) :
                             (<Nav.Link

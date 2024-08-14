@@ -12,6 +12,22 @@ import express from "express";
 const router = express.Router();
 import pgFormat from "pg-format";
 
+
+// PolyFill
+function groupBy(array, keyGetter) {
+    const map = new Map();
+    array.forEach((item) => {
+        const key = keyGetter(item);
+        const collection = map.get(key);
+        if (!collection) {
+            map.set(key, [item]);
+        } else {
+            collection.push(item);
+        }
+    });
+    return Object.fromEntries(map);
+}
+
 router.get("/evalFormDetails", async (req, res) => {
     try {
         // Run the query as a single transaction (Combined Table Expression)
@@ -27,17 +43,30 @@ router.get("/evalFormDetails", async (req, res) => {
         const questions = result[2];
 
         // Group the questions based on guidelines and principle and send to front end
-        // Group Questions based on guidelines
+
+        // Group the questions based on guidelines
         let questionsObj = questions.rows;
-        const groupedQuestions = Object.groupBy(questionsObj, (question) => question.guideline_name);
+        let groupedQuestions = {};
+        if (typeof Object.groupBy === "function") {
+            groupedQuestions = Object.groupBy(questionsObj, (question) => question.guideline_name);
+        } else {
+            groupedQuestions = groupBy(questionsObj, (question) => question.guideline_name);
+        }
 
         let guidelineObj = guidelines.rows;
         // Add the questions to the guideline object;
         guidelineObj.forEach((item) => {
             item.questions = groupedQuestions[item.title];
         });
-        const groupedGuidelines = Object.groupBy(guidelineObj, (guideline) => guideline.principle_name);
 
+        // Group the guidelines by principles
+        let groupedGuidelines = {};
+
+        if (typeof Object.groupBy === "function") {
+            groupedGuidelines = Object.groupBy(guidelineObj, (guideline) => guideline.principle_name);
+        } else {
+            groupedGuidelines = groupBy(guidelineObj, (guideline) => guideline.principle_name);
+        }
         // Send response to the front-end
         res.status(200).json({
             "success": true,

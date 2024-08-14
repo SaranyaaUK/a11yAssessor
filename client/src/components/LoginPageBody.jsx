@@ -59,11 +59,10 @@ const LoginPageBody = () => {
             } else {
                 // If user is not authenticated, do not authorise user
                 setIsAuthenticated(false);
-                toast.error(response.data && response.data.message);
+                toast.error("Invalid email or password! Check your credentials", { position: "top-center" });
             }
         } catch (err) {
-            console.error(err.message);
-            toast.error(err.message);
+            toast.error("Invalid email or password! Check your credentials", { position: "top-center" });
         }
     };
 

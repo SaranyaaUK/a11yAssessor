@@ -97,7 +97,7 @@ const ForgotPasswordBody = () => {
                             <Row>
                                 <Form>
                                     <Form.Group className="mb-2">
-                                        <Form.Label htmlFor="password">Password</Form.Label>
+                                        <Form.Label htmlFor="password">New Password</Form.Label>
                                         <Form.Control
                                             value={password}
                                             onChange={e => onChange(e)}
@@ -108,7 +108,7 @@ const ForgotPasswordBody = () => {
                                         </Form.Text>
                                     </Form.Group>
                                     <Form.Group className="mb-2">
-                                        <Form.Label htmlFor="confirmPassword">Confirm Password</Form.Label>
+                                        <Form.Label htmlFor="confirmPassword">Confirm New Password</Form.Label>
                                         <Form.Control
                                             value={confirmPassword}
                                             onChange={e => onChange(e)}
