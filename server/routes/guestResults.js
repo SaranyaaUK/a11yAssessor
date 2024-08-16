@@ -71,7 +71,7 @@ router.get("/getDOMElementImage", async (req, res) => {
         // Send the base-64 image to the front-end
         res.status(200).json(img);
     } catch (error) {
-        console.log(error);
+        // Send response to the front-end
         res.status(500).json({ message: "Cannot capture the screenshot of the image" });
     }
 
@@ -100,6 +100,7 @@ router.get("/:url", async (req, res) => {
         // Send the result to the front-end
         res.status(200).json(data);
     } catch (error) {
+        // Send response to the front-end
         res.status(500).json({ success: false, message: "Cannot evaluate the given page" });
     }
 })

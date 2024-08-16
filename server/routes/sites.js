@@ -64,7 +64,6 @@ router.post("/", async (req, res) => {
         }
     }
     catch (error) {
-        console.error(error.message);
         // Send response to the front-end
         res.status(500).json({
             success: false,
@@ -102,7 +101,6 @@ router.get("/", async (req, res) => {
         }
     }
     catch (error) {
-        console.error(error.message);
         // Send response to the front-end
         res.status(500).json({ success: false, message: "Server Error" });
     }
@@ -149,7 +147,6 @@ router.get("/:id", async (req, res) => {
     }
     catch (error) {
         // Send response to the front-end
-        console.error(error.message);
         res.status(500).json({ success: false, message: "Server Error" });
     }
 });
@@ -183,7 +180,6 @@ router.delete("/:id", async (req, res) => {
     }
     catch (error) {
         // Send response to the front-end
-        console.error(error.message);
         res.status(500).json({ success: false, message: "Server Error" });
     }
 });

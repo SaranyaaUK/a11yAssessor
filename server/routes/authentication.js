@@ -124,7 +124,6 @@ router.get("/activate/:id/:token", async (req, res) => {
         }
     }
     catch (error) {
-        console.log(error.message);
         // Send response to the front-end
         res.status(500).json({ success: false, message: "Server Error" });
     }
@@ -158,7 +157,6 @@ router.post("/login",
             res.json({ token });
 
         } catch (error) {
-            console.log(error.message);
             // Send response to the front-end
             res.status(500).json({ message: "Server Error" });
         }
@@ -177,6 +175,7 @@ router.get("/verify",
             // will be available in the request
             // When requested send the information to the front-end
             if (req.user) {
+                // Send response to the front-end
                 res.status(200).json(
                     {
                         success: true,
@@ -192,7 +191,7 @@ router.get("/verify",
             }
         }
         catch (error) {
-            console.error(error.message);
+            // Send response to the front-end
             res.status(500).json({ success: false, message: "Server Error" });
         }
     }

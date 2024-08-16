@@ -65,7 +65,6 @@ router.post("/", async (req, res) => {
             "id": user.rows[0].user_id
         });
     } catch (error) {
-        console.error(error.message);
         res.status(500).json({ "success": false, message: "Server Error" });
     }
 });
@@ -121,7 +120,6 @@ router.post("/:id/:token", async (req, res) => {
             res.json({ success: false, message: "Invalid Link" });
         }
     } catch (error) {
-        console.error(error.message);
         res.status(500).json({ success: false, message: "Server Error" });
     }
 });

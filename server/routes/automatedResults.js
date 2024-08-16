@@ -72,7 +72,6 @@ router.post("/results", async (req, res) => {
         }
     } catch (error) {
         // Send response to the front-end
-        console.error(error.message);
         res.status(500).json({ success: false, message: "Server Error" });
     }
 });
@@ -106,7 +105,6 @@ router.get("/results/:siteid", async (req, res) => {
         }
     } catch (error) {
         // Send response to the front-end
-        console.error(error.message);
         res.status(500).json({ message: "Server Error" });
     }
 });

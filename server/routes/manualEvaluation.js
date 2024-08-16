@@ -123,6 +123,7 @@ router.post("/results", async (req, res) => {
                     SELECT
                         (SELECT json_agg(row_to_json(manual_result_cte)) FROM manual_result_cte) AS manual_results,
                         (SELECT row_to_json(update_result_time_cte) FROM update_result_time_cte) AS result_time;`
+
                 // Get the updated result
                 const result = await db.query(combinedQuery, [site_id]);
 
@@ -137,7 +138,6 @@ router.post("/results", async (req, res) => {
             }
         }
     } catch (error) {
-        console.log(error);
         // Send response to the front-end
         res.status(500).json({
             success: false,
@@ -199,12 +199,14 @@ router.get("/results/:siteid", async (req, res) => {
                     return acc;
                 }, {});
 
+                // Send response to the front-end
                 res.status(200).json({
                     success: true,
                     result: groupedData,
                     message: "Result received"
                 })
             } else {
+                // Send response to the front-end
                 res.status(200).json({
                     success: false,
                     message: "Site does not exit"
@@ -212,6 +214,7 @@ router.get("/results/:siteid", async (req, res) => {
             }
         }
     } catch (error) {
+        // Send response to the front-end
         res.status(500).json({
             success: false,
             message: error.message
