@@ -77,10 +77,10 @@ const UserDashboardBody = (props) => {
                 if (response.data.success) {
                     setSitesList(response.data.sites);
                 } else {
-                    toast.error("Cannot retrive data!", { position: "top-center" });
+                    toast.error("Cannot retrieve data!", { position: "top-center" });
                 }
             } catch (err) {
-                toast.error("Cannot retrive data!", { position: "top-center" });
+                toast.error("Cannot retrieve data!", { position: "top-center" });
             }
         }
         getSitesList();

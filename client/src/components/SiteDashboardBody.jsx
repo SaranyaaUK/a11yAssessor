@@ -73,7 +73,7 @@ const SiteDashboardBody = () => {
                 }
             } catch (err) {
                 console.log(err);
-                toast.error("Cannot retrive data!", { position: "top-center" });
+                toast.error("Cannot retrieve data!", { position: "top-center" });
             }
         }
         getSiteInfo();
