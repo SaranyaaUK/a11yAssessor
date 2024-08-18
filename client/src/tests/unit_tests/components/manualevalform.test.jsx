@@ -11,6 +11,7 @@ import { MemoryRouter } from 'react-router-dom';
 import ServerAPI from '../../../apis/ServerAPI';
 import { AppContext } from '../../../context/AppContext';
 import '@testing-library/jest-dom';
+import { toast } from 'react-toastify';
 // Component under test
 import ManualEvaluationForm from '../../../components/ManualEvaluationForm';
 
@@ -38,6 +39,13 @@ jest.mock('react-router-dom', () => ({
 // Mocking ManualEvalFormBody component
 jest.mock('../../../components/ManualEvalFormBody',
     () => () => <div>Mocked ManualEvalFormBody</div>);
+
+// Mock the toast method
+jest.mock('react-toastify', () => ({
+    toast: {
+        info: jest.fn(),
+    },
+}));
 
 // Mock data
 const mockEvalFormDetails = {
@@ -110,6 +118,7 @@ describe('ManualEvaluationForm', () => {
         // Simulate button clicks
         fireEvent.click(screen.getByText('Save'));
         await waitFor(() => expect(ServerAPI.post).toHaveBeenCalledTimes(1));
+        expect(toast.info).toHaveBeenCalledWith('Result saved!', { "position": "top-center" });
 
         fireEvent.click(screen.getByText('Reset'));
         expect(screen.getByText('Reset Confirmation')).toBeInTheDocument();

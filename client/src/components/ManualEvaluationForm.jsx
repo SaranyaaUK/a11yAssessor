@@ -23,6 +23,8 @@ import FormWizard from "react-form-wizard-component";
 import ServerAPI from "../apis/ServerAPI";
 // Context
 import { AppContext } from "../context/AppContext";
+// Notification
+import { toast } from "react-toastify";
 
 const ManualEvaluationForm = () => {
     const location = useLocation();
@@ -134,6 +136,7 @@ const ManualEvaluationForm = () => {
 
     // Callback - Save progress
     const handleSave = async () => {
+        toast.info("Result saved!", { position: "top-center" });
         await postResults();
     }
 
