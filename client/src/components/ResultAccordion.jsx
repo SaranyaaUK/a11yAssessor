@@ -98,11 +98,13 @@ const ResultAccordion = ({ url, groupedResults }) => {
                                                             <Badge pill bg="primary" className="p-2 m-2">Selector</Badge>
                                                             <div>{code.selector}</div>
                                                         </Stack>
-                                                        <Stack direction="horizontal" gap={2}>
-                                                            <i tabIndex="0"
-                                                                onClick={() => handleShow(code.selector)}
-                                                                className="fa-solid fa-eye p-2 m-2" />{"View Snapshot"}
-                                                        </Stack>
+                                                        <Button
+                                                            onClick={() => handleShow(code.selector)} className="p-2 m-2">
+                                                            <Stack direction="horizontal" gap={2}>
+                                                                <i className="fa-solid fa-eye" />
+                                                                <>View Snapshot</>
+                                                            </Stack>
+                                                        </Button>
                                                     </Accordion.Body>
                                                 </AccordionItem>
                                             ))}

@@ -11,7 +11,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import Stack from "react-bootstrap/Stack";
-import Badge from "react-bootstrap/esm/Badge";
+import Badge from "react-bootstrap/Badge";
 
 const SiteEvaluationCard = ({ cardHeader, isButtonDisabled, timeStamp, site, isResultloading, iconClass, evalBtnClick, resultBtnClick }) => {
 
