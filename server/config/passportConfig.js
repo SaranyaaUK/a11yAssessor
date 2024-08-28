@@ -41,9 +41,15 @@ const authenticateUser = (email, password, done) => {
                             throw err;
                         }
                         if (isMatch) {
-                            return done(null, user);
+                            // Check if user account is verified
+                            if (!user.verified) {
+                                return done(null, false,
+                                    { message: "Email not verified yet, please verify your email before logging in!" });
+                            } else {
+                                return done(null, user);
+                            }
                         } else {
-                            return done(null, false, { message: "Password mismatch" })
+                            return done(null, false, { message: "Password mismatch" });
                         }
                     });
                 } else {
@@ -94,7 +100,8 @@ passport.use(new jwtStrategy(jwtOptions, (payload, done) => {
             } else {
                 // If the query is successful
                 const user = results.rows[0];
-                if (results.rows.length > 0) {
+
+                if (results.rows.length > 0 && user.verified) {
                     return done(null, user);
                 } else {
                     return done(null, false, { message: "User is not authorised" });

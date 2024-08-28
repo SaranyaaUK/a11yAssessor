@@ -138,21 +138,8 @@ router.post("/login",
     passport.authenticate('local', { session: false }),
     async (req, res) => {
         try {
-            // Destrcuture user
-            const { email } = req.user;
-
-            const userQuery = `SELECT * 
-                                    FROM users 
-                                    WHERE email = $1`;
-            const user = await db.query(userQuery, [email]);
-
-            // Check if user account is verified if not allow login
-            if (!user.rows[0].verified) {
-                return res.status(401).json({ message: "Email not verified yet, please verify your email before logging in!" });
-            }
-
             // Generate the JWT to send to the front end
-            const token = generateJWT(user.rows[0].user_id, "1d");
+            const token = generateJWT(req.user.user_id, "1d");
             // Send response to the front-end
             res.json({ token });
 
@@ -182,7 +169,8 @@ router.get("/verify",
                         user: {
                             first_name: req.user.first_name,
                             last_name: req.user.last_name,
-                            user_id: req.user.user_id
+                            user_id: req.user.user_id,
+                            verified: req.user.verified
                         }
                     });
             } else {
