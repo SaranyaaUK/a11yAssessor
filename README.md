@@ -67,6 +67,29 @@ a11yAssessor is an online tool that helps web developers assess the digital acce
    Click the `restore` button to setup the basic database schema, now the database is ready for use.
    ```
 
+4. ** Configure environment variables for Backend **
+
+```
+# Port to listen to - Server
+PORT=5000
+# Client URL - Change as required
+CLIENT_BASE_URL = "http://localhost:3000"
+# For JWT generation
+SECRET_KEY = "secretkey"
+# Database configuration
+DB_USER=postgres
+DB_PASSWORD=test
+DB_HOST=localhost
+DB_PORT=5432
+DB_DATABASE=a11yassessordb
+# Email configuration to send
+# verification email and password-reset
+EMAIL="johndoe@example.com"
+EMAIL_PASSWORD="password"
+# Development
+NODE_ENV="local"
+```
+
 4. **Run the Backend Server**
 
    ```
