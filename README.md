@@ -60,16 +60,17 @@ a11yAssessor is an online tool that helps web developers assess the digital acce
 
    ```
    Use the database backup file given as part of the supplementary file to migrate the database.
-   In PgAdmin create a database with name "a11yAssessordb"
-   Next, right click on the created database and click the `Restore` option.
-   Now, choose `Custom or tar` for format
-   Next browse and select the `a11yassessor_schema_backup.sql` file given in the supplementary file folder.
-   Click the `restore` button to setup the basic database schema, now the database is ready for use.
+   In PgAdmin create a database with name **a11yAssessordb**
+   Next, right click on the created database and click the **Restore** option.
+   Now, choose **Custom or tar** for **format**
+   Next browse and select the **a11yassessor_schema_backup.sql** file given in the supplementary file folder.
+   Click the **Restore** button to setup the basic database schema, now the database is ready for use.
+
    ```
 
 4. ** Configure environment variables for Backend **
 
-   Create a file name .env in the `server` folder and configure the below variables
+   Create a file named .env in the `server` folder and configure the below variables
 
    ```
    # Port to listen to - Server
