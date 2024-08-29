@@ -47,6 +47,7 @@ const ManualResultPage = (props) => {
         const renderRows = () => {
             let rows = [];
 
+            // Arrange guidlines with responective principles 
             for (const principle in manualResults) {
                 const guidelines = manualResults[principle];
                 const guidelineKeys = Object.keys(guidelines);
@@ -120,10 +121,13 @@ const ManualResultPage = (props) => {
             </Stack>
             <div className="ms-auto">
                 <span className="">Target webpage: </span>
-                <a className="align-items-center" target="_blank" href={decodeURIComponent(location.state.url)} rel="noreferrer">{decodeURIComponent(location.state.url)}</a>
+                <a className="align-items-center" target="_blank" href={decodeURIComponent(location.state.url)} rel="noreferrer">
+                    {decodeURIComponent(location.state.url)}
+                </a>
             </div>
             {/* Result table */}
             <Table bordered responsive>
+                {/* Header */}
                 <thead>
                     <tr>
                         <th className="text-center">Principle</th>

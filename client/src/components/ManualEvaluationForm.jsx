@@ -199,7 +199,9 @@ const ManualEvaluationForm = () => {
                         </Stack>
                         <div className="ms-auto">
                             <span className="">Target webpage: </span>
-                            <a className="align-items-center" target="_blank" href={decodeURIComponent(url)} rel="noreferrer">{decodeURIComponent(url)}</a>
+                            <a className="align-items-center" target="_blank" href={decodeURIComponent(url)} rel="noreferrer">
+                                {decodeURIComponent(url)}
+                            </a>
                         </div>
                     </Stack>
                     {/* Multi-step form */}
