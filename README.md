@@ -69,41 +69,43 @@ a11yAssessor is an online tool that helps web developers assess the digital acce
 
 4. ** Configure environment variables for Backend **
 
-```
-# Port to listen to - Server
-PORT=5000
-# Client URL - Change as required
-CLIENT_BASE_URL = "http://localhost:3000"
-# For JWT generation
-SECRET_KEY = "secretkey"
-# Database configuration
-DB_USER=postgres
-DB_PASSWORD=test
-DB_HOST=localhost
-DB_PORT=5432
-DB_DATABASE=a11yassessordb
-# Email configuration to send
-# verification email and password-reset
-EMAIL="johndoe@example.com"
-EMAIL_PASSWORD="password"
-# Development
-NODE_ENV="local"
-```
+   Create a file name .env in the `server` folder and configure the below variables
 
-4. **Run the Backend Server**
+   ```
+   # Port to listen to - Server
+   PORT=5000
+   # Client URL - Change as required
+   CLIENT_BASE_URL = "http://localhost:3000"
+   # For JWT generation
+   SECRET_KEY = "secretkey"
+   # Database configuration
+   DB_USER=postgres
+   DB_PASSWORD=password
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_DATABASE=database_name
+   # Email configuration to send
+   # verification email and password-reset
+   EMAIL="johndoe@example.com"
+   EMAIL_PASSWORD="password"
+   # Development
+   NODE_ENV="local"
+   ```
+
+5. **Run the Backend Server**
 
    ```
    npm start
    ```
 
-5. **Install Frontend Dependencies**
+6. **Install Frontend Dependencies**
 
    ```
    cd ../client
    npm install
    ```
 
-6. **Run the Frontend Development Server**
+7. **Run the Frontend Development Server**
    ```
    npm start
    ```
