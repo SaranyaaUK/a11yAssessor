@@ -45,8 +45,9 @@ a11yAssessor is an online tool that helps web developers assess the digital acce
 1. **Clone the repository**
 
    ```
-   git clone https://stgit.dcs.gla.ac.uk/msc-project-for-information-technology/2023/it-project-2880447a/web-a11y-assessor.git
-   cd web-a11y-assessor
+   git clone https://github.com/SaranyaaUK/a11yAssessor.git
+
+   cd a11y-assessor
    ```
 
 2. **Install Backend Dependencies**
