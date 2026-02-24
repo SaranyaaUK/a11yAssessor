@@ -45,30 +45,20 @@ a11yAssessor is an online tool that helps web developers assess the digital acce
 1. **Clone the repository**
 
    ```
-   git clone https://stgit.dcs.gla.ac.uk/msc-project-for-information-technology/2023/it-project-2880447a/web-a11y-assessor.git
-   cd web-a11y-assessor
+   git clone https://github.com/SaranyaaUK/a11yAssessor.git
+
+   cd a11y-assessor
    ```
 
 2. **Install Backend Dependencies**
+
 
    ```
    cd server
    npm install
    ```
 
-3. **Migrate the Database**
-
-   ```
-   Use the database backup file given as part of the supplementary file to migrate the database.
-   In PgAdmin create a database with name **a11yAssessordb**
-   Next, right click on the created database and click the **Restore** option.
-   Now, choose **Custom or tar** for **format**
-   Next browse and select the **a11yassessor_schema_backup.sql** file given in the supplementary file folder.
-   Click the **Restore** button to setup the basic database schema, now the database is ready for use.
-
-   ```
-
-4. ** Configure environment variables for Backend **
+3. ** Configure environment variables for Backend **
 
    Create a file named .env in the `server` folder and configure the below variables
 
@@ -76,9 +66,9 @@ a11yAssessor is an online tool that helps web developers assess the digital acce
    # Port to listen to - Server
    PORT=5000
    # Client URL - Change as required
-   CLIENT_BASE_URL = "http://localhost:3000"
+   CLIENT_BASE_URL=http://localhost:3000
    # For JWT generation
-   SECRET_KEY = "secretkey"
+   SECRET_KEY=secretkey
    # Database configuration
    DB_USER=postgres
    DB_PASSWORD=password
@@ -87,11 +77,22 @@ a11yAssessor is an online tool that helps web developers assess the digital acce
    DB_DATABASE=database_name
    # Email configuration to send
    # verification email and password-reset
-   EMAIL="johndoe@example.com"
-   EMAIL_PASSWORD="password"
+   EMAIL=johndoe@example.com
+   EMAIL_PASSWORD=password
    # Development
-   NODE_ENV="local"
+   NODE_ENV=local
    ```
+3. **Migrate the Database**
+
+   ```
+   Install `PostgreSQL` and `pgAdmin`
+   
+   Then in a terminal execute the below commands
+   cd a11yAssessor folder
+   createdb a11yassessordb
+   psql -U postgres -d a11yassessordb -f server/database.sql
+   ```
+
 
 5. **Run the Backend Server**
 
