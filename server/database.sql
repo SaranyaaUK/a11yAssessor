@@ -1,7 +1,7 @@
 -- Postgres Database Schema
 
 -- Create Database
-CREATE DATABASE a11yassessordb;
+-- CREATE DATABASE a11yassessordb;
 
 -- Extension for uuid_generate_v4
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -63,9 +63,6 @@ CREATE TABLE automated_results (
 
 -- Manual Evaluation
 
--- To populate the principles table
-\copy principles(title, description) FROM '\server\utils\evaluationForm\principles.csv' DELIMITER ',' CSV;
-
 -- Principles Table
 CREATE TABLE principles(
     principle_id uuid DEFAULT uuid_generate_v4(),
@@ -75,8 +72,8 @@ CREATE TABLE principles(
     UNIQUE (title)
 );
 
--- To populate the guidelines table
-\copy guidelines(title, moreinfo, benefits, principle_name) FROM '\server\utils\evaluationForm\guidelines.csv' DELIMITER ',' CSV;
+-- To populate the principles table
+\copy principles(title, description) FROM 'server/utils/evaluationForm/principles.csv' DELIMITER ',' CSV;
 
 -- Guidelines Table 
 CREATE TABLE guidelines (
@@ -88,6 +85,9 @@ CREATE TABLE guidelines (
     PRIMARY KEY (guideline_id)
 );
 
+-- To populate the guidelines table
+\copy guidelines(title, moreinfo, benefits, principle_name) FROM 'server/utils/evaluationForm/guidelines.csv' DELIMITER ',' CSV;
+
 --  Success Criteria Table 
 CREATE TABLE success_criteria (
     sc_id uuid DEFAULT uuid_generate_v4(),
@@ -97,11 +97,6 @@ CREATE TABLE success_criteria (
     FOREIGN KEY (guideline_id) REFERENCES guidelines(guideline_id) ON DELETE CASCADE,
     FOREIGN KEY (principle_id) REFERENCES principles(principle_id) ON DELETE CASCADE
 );
-
--- Trigger to add a mapping for principles and guidelines
-CREATE TRIGGER success_criteria_populate AFTER INSERT 
-ON guidelines FOR EACH ROW
-EXECUTE FUNCTION populate_sc();
 
 -- Function to update the table
 CREATE OR REPLACE FUNCTION populate_sc()
@@ -133,15 +128,15 @@ CREATE TABLE manual_questions (
     UNIQUE (title, sc_id)
 );
 
--- To populate the questions table
-\copy manual_questions(title, guideline_name, q_text, instructions, extras) FROM '\server\utils\evaluationForm\questions.csv' DELIMITER ',' CSV;
+\copy manual_questions(title, guideline_name, q_text, instructions, extras) FROM 'server/utils/evaluationForm/questions.csv' DELIMITER ',' CSV;
 
 -- Trigger to add a mapping for principles and guidelines
+CREATE TRIGGER success_criteria_populate AFTER INSERT 
+ON guidelines FOR EACH ROW
+EXECUTE FUNCTION populate_sc();
 
-CREATE TRIGGER manual_question_update
-BEFORE INSERT ON manual_questions
-FOR EACH ROW
-EXECUTE FUNCTION update_manual_question();
+
+-- To populate the questions table
 
 -- FUNCTION to update the table
 CREATE OR REPLACE FUNCTION update_manual_question()
@@ -169,6 +164,14 @@ BEGIN
     RETURN NEW;
 END;
 $$;
+
+-- Trigger to add a mapping for principles and guidelines
+
+CREATE TRIGGER manual_question_update
+BEFORE INSERT ON manual_questions
+FOR EACH ROW
+EXECUTE FUNCTION update_manual_question();
+
 
 -- Manual evaluation result Table
 CREATE TABLE manual_results (
